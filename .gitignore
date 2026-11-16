@@ -1,3 +1,4 @@
 out/
 render/node_modules/
+node_modules/
 *.part.mp4
