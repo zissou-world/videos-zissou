@@ -183,13 +183,30 @@ function mQuote() {
 }
 function mStore() {
   const g = new THREE.Group();
-  g.add(mesh(new RoundedBoxGeometry(2.8, 2.0, 1.8, 4, .06), M.white, 0, 0, 0));
-  g.add(mesh(new RoundedBoxGeometry(3.05, .18, 2.0, 3, .06), M.white, 0, 1.08, 0));
-  for (let i = 0; i < 6; i++) { const m = mesh(new THREE.CylinderGeometry(.25, .25, .9, 24, 1, false, 0, Math.PI), i % 2 ? M.white : M.coral, -1.18 + i * .47, .62, .95); m.rotation.set(Math.PI / 2, 0, Math.PI / 2); m.scale.set(1, 1, .7); g.add(m); }
-  g.add(mesh(new RoundedBoxGeometry(.7, 1.05, .08, 3, .03), M.navy, -.6, -.47, .9));
-  g.add(mesh(new RoundedBoxGeometry(1.0, .7, .06, 3, .03), M.slate, .55, -.25, .9));
-  const sign = canvasTex(1024, 300, x => { x.drawImage(IMG.logo, 112, 20, 800, 800 * IMG.logo.height / IMG.logo.width); x.globalCompositeOperation = 'source-in'; x.fillStyle = '#293C4D'; x.fillRect(0, 0, 1024, 300); });
-  g.add(mesh(new THREE.PlaneGeometry(1.4, .41), new THREE.MeshBasicMaterial({ map: sign, transparent: true }), 0, 1.08, 1.01));
+  const glass = new THREE.MeshPhysicalMaterial({ color: 0x9fb3d1, roughness: .12, metalness: 0, clearcoat: 1, clearcoatRoughness: .05 });
+  g.add(mesh(new RoundedBoxGeometry(3.0, 2.2, 1.6, 4, .06), M.white, 0, 0, 0));                 // body
+  g.add(mesh(new RoundedBoxGeometry(3.25, .2, 1.85, 3, .07), M.white, 0, 1.2, 0));              // roof cornice
+  g.add(mesh(new RoundedBoxGeometry(3.15, .12, 1.75, 3, .05), M.white, 0, -1.16, .05));         // base step
+  // sign band: navy with white logo
+  g.add(mesh(new RoundedBoxGeometry(2.3, .46, .08, 3, .04), M.navy, 0, .78, .82));
+  const sign = canvasTex(1024, 220, x => { x.drawImage(IMG.logo, 232, 18, 560, 560 * IMG.logo.height / IMG.logo.width); });
+  g.add(mesh(new THREE.PlaneGeometry(2.0, .43), new THREE.MeshBasicMaterial({ map: sign, transparent: true }), 0, .78, .87));
+  // striped awning: slanted slats + rounded front edge
+  const aw = new THREE.Group(); aw.position.set(0, .42, .82); aw.rotation.x = .55;
+  for (let i = 0; i < 8; i++) aw.add(mesh(new RoundedBoxGeometry(.33, .06, .62, 2, .025), i % 2 ? M.white : M.coral, -1.155 + i * .33, 0, .31));
+  for (let i = 0; i < 8; i++) { const sc = mesh(new THREE.CylinderGeometry(.165, .165, .07, 24, 1, false, 0, Math.PI), i % 2 ? M.white : M.coral, -1.155 + i * .33, 0, .62); sc.rotation.set(Math.PI / 2, 0, Math.PI / 2); sc.rotation.set(0, 0, 0); sc.rotation.x = Math.PI / 2; sc.rotation.z = Math.PI; g.add(sc); aw.add(sc); }
+  g.add(aw);
+  // door (left) with frame and handle
+  g.add(mesh(new RoundedBoxGeometry(.78, 1.25, .06, 3, .03), M.white, -.82, -.48, .81));
+  g.add(mesh(new RoundedBoxGeometry(.66, 1.15, .06, 3, .03), M.navy, -.82, -.5, .84));
+  g.add(mesh(new THREE.SphereGeometry(.05, 16, 12), M.coral, -.6, -.5, .9));
+  // shop window (right)
+  g.add(mesh(new RoundedBoxGeometry(1.42, .98, .06, 3, .03), M.white, .5, -.36, .81));
+  g.add(mesh(new RoundedBoxGeometry(1.3, .86, .05, 3, .03), glass, .5, -.36, .84));
+  g.add(mesh(new RoundedBoxGeometry(.04, .86, .06, 2, .015), M.white, .5, -.36, .86));
+  // little mattress in the window
+  g.add(mesh(new RoundedBoxGeometry(.9, .14, .3, 3, .05), M.white, .5, -.68, .75));
+  g.add(mesh(new RoundedBoxGeometry(.9, .06, .3, 2, .02), M.coral, .5, -.58, .75));
   return sh(g);
 }
 function mBell() {
@@ -205,12 +222,15 @@ function mBell() {
 }
 function mTag() {
   const g = new THREE.Group();
-  const s = new THREE.Shape(); s.moveTo(-1.3, -.75); s.lineTo(.55, -.75); s.lineTo(1.3, 0); s.lineTo(.55, .75); s.lineTo(-1.3, .75); s.closePath();
-  const hole = new THREE.Path(); hole.absarc(.75, 0, .17, 0, Math.PI * 2, true); s.holes.push(hole);
-  g.add(new THREE.Mesh(ext(s, .14, .08, 5), M.white));
-  const lab = canvasTex(512, 512, x => { x.fillStyle = '#E4796F'; x.font = '700 330px Zona'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('%', 256, 280); });
-  g.add(mesh(new THREE.PlaneGeometry(1.15, 1.15), new THREE.MeshBasicMaterial({ map: lab, transparent: true }), -.35, 0, .16));
-  const str = mesh(new THREE.TorusGeometry(.42, .045, 16, 48, Math.PI * 1.3), M.coral, 1.12, .3, 0); str.rotation.set(.3, 1.2, 1.9); g.add(str);
+  const s = new THREE.Shape(); s.moveTo(-1.25, -.7); s.lineTo(.5, -.7); s.lineTo(1.2, 0); s.lineTo(.5, .7); s.lineTo(-1.25, .7); s.closePath();
+  const hole = new THREE.Path(); hole.absarc(.68, 0, .16, 0, Math.PI * 2, true); s.holes.push(hole);
+  const body = new THREE.Mesh(new THREE.ExtrudeGeometry(s, { depth: .16, bevelEnabled: true, bevelThickness: .09, bevelSize: .09, bevelSegments: 6, curveSegments: 32 }), M.coral);
+  body.position.z = -.08; g.add(body);
+  const ring = mesh(new THREE.TorusGeometry(.2, .045, 16, 40), M.white, .68, 0, .2); g.add(ring);
+  const lab = canvasTex(512, 512, x => { x.fillStyle = '#ffffff'; x.font = '700 340px Zona'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('%', 256, 285); });
+  g.add(mesh(new THREE.PlaneGeometry(1.1, 1.1), new THREE.MeshBasicMaterial({ map: lab, transparent: true }), -.38, 0, .19));
+  const curve = new THREE.CatmullRomCurve3([V(.68, 0, .05), V(1.05, .25, .1), V(1.35, .75, 0), V(1.2, 1.25, -.1), V(.85, 1.45, -.15)]);
+  g.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 64, .035, 12, false), M.navy));
   return sh(g);
 }
 function mQuotes() {
@@ -295,8 +315,9 @@ function S0(c, t) {
   stat(2219, 'atendimentos de venda analisados', 440, Wd(0, 'dois') - .1);
   stat(354, 'viraram compra em até 14 dias', 640, Wd(0, 'trezentos') - .1, { color: C.coral });
   stat(16, 'de conversão média', 840, Wd(0, 'compra') + .25, { suf: '%' });
-  rise(c, 'O que faz uma conversa', L, 500, 92, C.ink, t, Wd(0, 'separa') - .2);
-  rise(c, 'virar venda?', L, 610, 92, C.coral, t, Wd(0, 'vende', 1) - .15);
+  rise(c, 'O que faz', L, 450, 96, C.ink, t, Wd(0, 'separa') - .25);
+  rise(c, 'uma conversa', L, 560, 96, C.ink, t, Wd(0, 'separa') - .05);
+  rise(c, 'virar venda?', L, 670, 96, C.coral, t, Wd(0, 'vende', 1) - .15);
 }
 function S1(c, t) {
   const s = SC[1];
