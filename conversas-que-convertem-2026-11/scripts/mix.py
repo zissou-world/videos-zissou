@@ -15,7 +15,7 @@ SC = cues['scenes']; TR = [(SC[i]['voEnd'] + SC[i + 1]['voStart']) / 2 for i in 
 SFX = [('reveal', .3, -20)] + [('whoosh', t - .55, -17) for t in TR]
 POPS = [(0, 'dois', 'tick'), (0, 'trezentos', 'tick'), (1, 'triplica', 'pop'), (1, 'vinte', 'pop'), (2, 'dobra', 'pop'), (2, 'dois', 'pop'),
         (3, 'prazo', 'pop'), (3, 'pagamento', 'pop'), (3, 'nesse', 'snap'), (4, 'quarenta', 'pop'), (4, 'convite', 'snap'), (4, 'defender', 'snap'),
-        (5, 'link', 'pop'), (5, 'interesse', 'pop'), (5, 'retome', 'snap'), (6, 'metade', 'pop'), (6, 'tres', 'pop'),
+        (5, 'mensagens', 'pop'), (5, 'dias', 'snap'), (5, 'condicao', 'snap'), (5, 'finalizar', 'snap'), (6, 'metade', 'pop'), (6, 'tres', 'pop'),
         (7, 'pergunte', 'snap'), (7, 'monte', 'snap'), (7, 'mande', 'snap'), (7, 'convide', 'snap'), (7, 'peca', 'snap')]
 SFX += [(k, Wd(si, w) - .05, -21 if k == 'tick' else -18) for si, w, k in POPS]
 SFX += [('swell', Wd(7, 'conversa', 2) - 1.2, -17), ('reveal', Wd(7, 'bora') + .2, -19)]

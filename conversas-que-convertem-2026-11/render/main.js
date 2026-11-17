@@ -134,7 +134,7 @@ const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = .8;
 const D = 20;
 const camera = new THREE.PerspectiveCamera(2 * Math.atan(5.4 / D) * 180 / Math.PI, W / H, .5, 200);
-const key = new THREE.DirectionalLight(0xffffff, 1.8); key.castShadow = true; key.shadow.mapSize.set(2048, 2048); key.shadow.radius = 8; key.shadow.bias = -.0005;
+const key = new THREE.DirectionalLight(0xffffff, 1.8); key.castShadow = false; key.shadow.mapSize.set(2048, 2048); key.shadow.radius = 8; key.shadow.bias = -.0005;
 Object.assign(key.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6, near: 1, far: 40 });
 scene.add(key); scene.add(key.target);
 scene.add(new THREE.HemisphereLight(0xffffff, 0xe6e2dc, .9));
@@ -263,8 +263,7 @@ function mIcon(pts) {
 const ICONS = [];
 function addIcon(i, model, sx, sy, scale, opt = {}) {
   const grp = new THREE.Group(); grp.add(model); scene.add(grp);
-  const shadow = mesh(new THREE.PlaneGeometry(9, 9), M.shadow); shadow.rotation.x = -Math.PI / 2; shadow.receiveShadow = true; scene.add(shadow);
-  ICONS.push({ i, grp, model, sx, sy, scale, shadow, opt });
+  ICONS.push({ i, grp, model, sx, sy, scale, opt, sh: { a: 0 } });
 }
 function build(iconPts) {
   addIcon(0, mBubbles(), 1420, 500, 1.15);
@@ -272,7 +271,7 @@ function build(iconPts) {
   addIcon(2, mStore(), 480, 560, 1.55, { ry: .42 });
   addIcon(3, mBell(), 1450, 500, 1.15);
   addIcon(4, mTag(), 480, 520, 1.6, { ry: .3 });
-  addIcon(5, mQuotes(), 1680, 250, .8);
+  addIcon(5, mQuotes(), 1660, 300, .85);
   addIcon(6, mWatch(), 470, 530, 1.15, { ry: .3 });
   addIcon(7, mIcon(iconPts), 960, 330, 1.6);
 }
@@ -280,7 +279,7 @@ function upd3D(t) {
   for (const ic of ICONS) {
     const s0 = ic.i ? TR[ic.i - 1] - 1 : -1, s1 = ic.i < A.length - 1 ? TR[ic.i] + 1 : 1e9;
     const vis = t > s0 && t < s1;
-    ic.grp.visible = ic.shadow.visible = vis; if (!vis) continue;
+    ic.grp.visible = vis; ic.sh.a = 0; if (!vis) continue;
     const intro = SC[ic.i].voStart - .55;
     const k = backO(pr(t, intro, 1.0));
     let sx = ic.sx, sy = ic.sy, sc = ic.scale;
@@ -290,7 +289,7 @@ function upd3D(t) {
     ic.grp.position.copy(p).add(V(0, bob, 0));
     ic.grp.scale.setScalar(Math.max(.001, sc * (ic.i === 7 ? 1 : k)));
     ic.grp.rotation.set(.12 + Math.sin(t * .7 + ic.i) * .05, (ic.opt.ry ?? -.35) + Math.sin(t * .5 + ic.i) * .18 + (1 - clamp(k)) * 1.2, Math.sin(t * .6) * .03);
-    ic.shadow.position.copy(p).add(V(0, -1.75 * sc, 0));
+    if (ic.i !== 7) ic.sh = { a: clamp(k), x: A[ic.i].x + sx, y: A[ic.i].y + sy + 158 * sc - bob * 100, w: 150 * sc * (1 - bob * .6), lift: bob };
     if (ic.model.userData.hand) ic.model.userData.hand.rotation.z = -t * 2.2;
     if (ic.model.userData.badge) { const b = backO(pr(t, Wd(3, 'avisa') - .1, .6)); ic.model.userData.badge.scale.setScalar(Math.max(.001, b)); ic.model.rotation.z = Math.sin(t * 7) * .06 * Math.exp(-Math.max(0, t - Wd(3, 'avisa')) * 1.2) * (t > Wd(3, 'avisa') ? 1 : 0); }
   }
@@ -385,24 +384,40 @@ function S4(c, t) {
 }
 function S5(c, t) {
   const s = SC[5];
-  kicker(c, '5 · PALAVRAS QUE VENDEM', L, 250, t, s.voStart - .4);
-  const col = (x, title, color, items, t0) => {
-    kicker(c, title, x, 340, t, t0, { size: 22, color });
-    items.forEach(([lab, v, tt], j) => {
-      const p = ap(t, tt, .5); if (p.a <= 0) return;
-      const y = 375 + j * 100;
+  kicker(c, '5 · PRÓXIMO PASSO CONCRETO', L, 230, t, s.voStart - .4);
+  rise(c, 'Não existe frase mágica.', L, 330, 64, C.ink, t, Wd(5, 'existe') - .2);
+  const tl = Wd(5, 'mensagens') - .2;
+  const XL = L, WL = 660, XR = 900, WR = 850;
+  kicker(c, 'EM VEZ DE  ·  VENDEM 3% A 12%', XL, 430, t, tl, { size: 21, color: C.slate });
+  kicker(c, 'FAÇA ASSIM  ·  VENDEM 42% A 58%', XR, 430, t, Wd(5, 'nas') - .2, { size: 21, color: C.coral });
+  const rows = [
+    ['"Trabalhamos com vários modelos."', 12, 'Pelo que você contou, este resolve.', 'Entrega em 5 dias úteis.', Wd(5, 'dias') - .25],
+    ['"Se você ainda tem interesse…"', 3, 'Consegui uma condição até sexta.', 'Te mando o link?', Wd(5, 'condicao') - .25],
+    ['"Qualquer dúvida, estou à disposição."', 6, 'Você consegue finalizar hoje?', 'Me passa seu nome completo.', Wd(5, 'finalizar') - .4],
+  ];
+  rows.forEach(([bad, v, g1, g2, tg], j) => {
+    const y = 465 + j * 150;
+    const p = ap(t, tl + j * .45, .5);
+    if (p.a > 0) {
       c.save(); c.globalAlpha = p.a; c.translate(0, p.dy * .5);
-      card(c, x, y, 700, 80, { r: 20, fill: color === C.coral ? '#fff' : '#F7F5F4' });
-      txt(c, lab, x + 28, y + 51, 29, color === C.coral ? C.ink : C.slate, { w: 600, mw: 520 });
-      num(c, v, pr(t, tt, .8), x + 672, y + 54, 40, color, { suf: '%', al: 'right' });
+      card(c, XL, y, WL, 118, { r: 22, fill: '#F7F5F4' });
+      txt(c, bad, XL + 28, y + 70, 28, C.slate, { w: 600, mw: WL - 150 });
+      num(c, v, pr(t, tl + j * .45, .8), XL + WL - 28, y + 74, 40, C.slate, { suf: '%', al: 'right' });
       c.restore();
-    });
-  };
-  const tl = Wd(5, 'link') - .25;
-  col(L, 'VENDEM', C.coral, [['"link de pagamento"', 55, tl], ['"prazo de entrega"', 58, tl + .25], ['"dias úteis"', 46, Wd(5, 'dias') - .2], ['"você consegue finalizar hoje?"', 48, Wd(5, 'consegue') - .2]], tl - .2);
-  const ta = Wd(5, 'interesse') - .5;
-  col(950, 'AFASTAM', C.slate, [['"se você ainda tem interesse"', 3, ta], ['"não quero te incomodar"', 7, ta + .4], ['"só passei para saber"', 8, ta + .7]], ta - .2);
-  pill(c, 'Retome sempre com um motivo concreto', L, 820, 26, C.navy, '#fff', pr(t, Wd(5, 'retome') - .1, .6), { shadow: true });
+    }
+    const q = ap(t, tg, .55);
+    if (q.a > 0) {
+      c.save(); c.globalAlpha = q.a; c.translate((1 - q.k) * 30, 0);
+      // arrow
+      c.strokeStyle = C.coral; c.lineWidth = 4; c.lineCap = 'round'; c.beginPath(); c.moveTo(XL + WL + 30, y + 59); c.lineTo(XR - 22, y + 59); c.moveTo(XR - 34, y + 49); c.lineTo(XR - 22, y + 59); c.lineTo(XR - 34, y + 69); c.stroke();
+      card(c, XR, y, WR, 118, { r: 22 });
+      rr(c, XR, y, 8, 118, [22, 0, 0, 22]); c.fillStyle = C.coral; c.fill();
+      txt(c, g1, XR + 34, y + 52, 30, C.ink, { mw: WR - 60 });
+      txt(c, g2, XR + 34, y + 92, 28, C.coral, { w: 600, mw: WR - 60 });
+      c.restore();
+    }
+  });
+  pill(c, 'Sempre dê um próximo passo concreto', L, 940, 26, C.navy, '#fff', pr(t, Wd(5, 'hoje') + .2, .6), { shadow: true });
 }
 function S6(c, t) {
   const s = SC[6];
@@ -455,11 +470,20 @@ function footnote(c, t) {
   if (a > 0) txt(c, 'Fonte: atendimentos de WhatsApp × pedidos pagos na Shopify · 1/jun a 2/nov de 2026', 170, 1038, 18, C.slate, { w: 600, a });
 }
 
+function contactShadows(c) {
+  for (const ic of ICONS) {
+    if (!ic.grp.visible || !ic.sh.a) continue;
+    const x = ic.sh.x - CAM.x, y = ic.sh.y - CAM.y, w = ic.sh.w;
+    c.save(); c.globalAlpha = ic.sh.a; c.translate(x, y); c.scale(1, .16);
+    const g = c.createRadialGradient(0, 0, 0, 0, 0, w); g.addColorStop(0, 'rgba(40,40,55,0.22)'); g.addColorStop(.55, 'rgba(40,40,55,0.09)'); g.addColorStop(1, 'rgba(40,40,55,0)');
+    c.fillStyle = g; c.beginPath(); c.arc(0, 0, w, 0, Math.PI * 2); c.fill(); c.restore();
+  }
+}
 function composite(c, t) {
   CAM = camAt(t);
   drawBG(c, t);
   camera.position.set(toU(CAM.x), -toU(CAM.y), D); camera.lookAt(toU(CAM.x), -toU(CAM.y), 0);
-  upd3D(t); renderer.render(scene, camera); c.drawImage(glc, 0, 0);
+  upd3D(t); contactShadows(c); renderer.render(scene, camera); c.drawImage(glc, 0, 0);
   for (let i = 0; i < A.length; i++) {
     if (Math.abs(i - CAM.s) > 1) continue;
     const ox = A[i].x - CAM.x, oy = A[i].y - CAM.y;

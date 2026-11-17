@@ -1,6 +1,6 @@
 # Conversas que convertem — roteiro
 
-**Duração:** cerca de 1m35s · 1920×1080 · 30 fps
+**Duração:** cerca de 1m45s · 1920×1080 · 30 fps
 **Público:** time de vendas, para mostrar o que faz uma conversa de WhatsApp virar venda e o que fazer na próxima conversa.
 **Estética:** como num keynote: fundo claro, muito respiro, números grandes e um ícone 3D por cena.
 **Paleta Zissou:**
@@ -20,7 +20,7 @@
 | 3 | **2 · Convite para a loja** | Loja Zissou em 3D. "2×" e três figuras, duas acesas em coral: "2 em cada 3 compram". | "Segundo: leve o cliente para a loja. O convite dobra a chance de venda, e quando ele vai, dois em cada três compram." |
 | 4 | **3 · Sinais de compra** | Sino de notificação em 3D. Barras: prazo de entrega 47%, pagamento 43%, média 16%. Selo: "Responda rápido e mande o link". | "Terceiro: o cliente avisa quando está pronto. Perguntou de prazo de entrega? 47% compram. De pagamento? 43. Nesse momento, responda rápido e já mande o link." |
 | 5 | **4 · Achou caro?** | Etiqueta de preço em 3D. "42% fecham". Respostas comparadas: convite à loja 58%, orçamento ou link 49%, condição 45%, só defender o produto 27%. | "Quarto: quando o cliente acha caro, ele está perto de comprar. 42% fecham. Responda com algo concreto: uma condição, o orçamento ou o convite para a loja. Só defender o produto converte 27%." |
-| 6 | **5 · Palavras que vendem** | Aspas em 3D. Coluna coral "vendem": link de pagamento 55%, prazo de entrega 58%, "você consegue finalizar hoje?" 48%, dias úteis 46%. Coluna cinza "afastam": "se você ainda tem interesse" 3%, "não quero te incomodar" 7%, "só passei para saber" 8%. | "Quinto: as palavras vendem. Link de pagamento, prazo em dias úteis, 'você consegue finalizar hoje?'. Já 'se você ainda tem interesse' vende só 3%. Retome sempre com um motivo concreto." |
+| 6 | **5 · Próximo passo concreto** | "Não existe frase mágica." Pares "Em vez de" (cinza) → "Faça assim" (coral). Trabalhamos com vários modelos (12%) → Pelo que você contou, este resolve. Entrega em 5 dias úteis. Se você ainda tem interesse… (3%) → Consegui uma condição até sexta. Te mando o link? Qualquer dúvida, estou à disposição (6%) → Você consegue finalizar hoje? Me passa seu nome completo. Mensagens concretas aparecem nas conversas que vendem 42% a 58%. | "Quinto: não existe frase mágica, existe próximo passo. Mensagens vagas, como 'se você ainda tem interesse' ou 'qualquer dúvida', devolvem a decisão ao cliente e vendem de três a seis por cento. Nas conversas que vendem, o vendedor é concreto: dá o prazo em dias úteis, explica a condição, manda o link e pergunta: você consegue finalizar hoje?" |
 | 7 | **O tempo conta** | Cronômetro em 3D. Linha do tempo: 51% em até 12 horas e 75% em até 3 dias. | "E seja rápido no que importa: metade das compras sai em até doze horas, e três em cada quatro, em até três dias." |
 | 8 | **Na próxima conversa** | Lista que se completa: Pergunte · Monte o orçamento · Mande o link · Convide para a loja · Peça os dados e feche. Final com o ícone Zissou 3D e a frase "Conversa concreta vende mais." | "Na sua próxima conversa: pergunte, monte o orçamento, mande o link, convide para a loja e peça os dados para fechar. Conversa concreta vende mais. Bora vender, time!" |
 
@@ -28,3 +28,4 @@
 - **Os cinco hábitos de maior efeito:** orçamento, loja, sinais, preço e palavras. Fecha com o tempo e um checklist acionável.
 - **Sem nomes de vendedores:** comparo o terço que mais converte com o que menos converte. A tabela por pessoa expõe quem está abaixo e não ajuda num vídeo para o time inteiro.
 - **"Quase triplica" e "dobra":** vêm do peso estimado no relatório (2,9× e 2,2×), que compara conversas de mesmo tamanho. O relatório trata isso como relação, não como prova.
+- A cena 5 mostra as frases como sinais de uma conversa concreta, não como palavras mágicas: elas aparecem em conversas que já avançaram. O que o vendedor controla é dar sempre um próximo passo claro (prazo, condição, link, pergunta de fechamento).
