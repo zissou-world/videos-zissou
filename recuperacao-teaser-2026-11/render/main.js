@@ -293,7 +293,7 @@ const ICONS = [];
 function addIcon(i, model, sx, sy, scale, opt = {}) { const grp = new THREE.Group(); grp.add(model); scene.add(grp); ICONS.push({ i, grp, model, sx, sy, scale, opt, sh: { a: 0 } }); }
 function build(iconPts) {
   addIcon(0, mQuote(), 1450, 540, 1.55, { ry: -.45, anim: 'swing' });
-  addIcon(1, mIcon(iconPts), 1430, 520, 2.0, { ry: -.3, anim: 'spin' });
+  addIcon(1, mIcon(iconPts), 1430, 520, 2.0, { ry: -.3, anim: 'spin', zoomOut: 5.8 });
   addIcon(2, mIcon(iconPts), 960, 330, 1.3, { final: true, anim: 'spin' });
 }
 function upd3D(t) {
@@ -316,7 +316,8 @@ function upd3D(t) {
     if (ic.opt.anim === 'funnel') extraZ = Math.sin(t * 1.8) * .08;
     // landing squash
     const land = pr(t, intro + .55, .45); const sqk = Math.sin(Math.PI * land) * (land < 1 ? 1 : 0);
-    ic.grp.scale.set(Math.max(.001, sc * k * sx * (1 + .1 * sqk)), Math.max(.001, sc * k * sy * (1 - .1 * sqk)), Math.max(.001, sc * k));
+    const zf = ic.opt.zoomOut ? 1 + 1.8 * eio(pr(t, ic.opt.zoomOut, .5)) : 1;
+    ic.grp.scale.set(Math.max(.001, sc * k * sx * (1 + .1 * sqk) * zf), Math.max(.001, sc * k * sy * (1 - .1 * sqk) * zf), Math.max(.001, sc * k * zf));
     ic.grp.rotation.set(.12 + Math.sin(t * .9 + ic.i) * .08, (ic.opt.ry ?? -.35) + Math.sin(t * .7 + ic.i) * .3 + (1 - eo(kr)) * Math.PI * 2 + extraY, Math.sin(t * .8) * .05 + extraZ);
     const ud = ic.model.userData;
     if (ud.badge) { const ph = Math.max(0, lt) % 2.6; const pk = pr(ph, 0, .5); ud.badge.scale.setScalar(1 + .35 * Math.sin(Math.PI * pk) * (lt > 0 ? 1 : 0)); ud.badge.rotation.z = -.4 * Math.sin(Math.PI * pk) * (lt > 0 ? 1 : 0); }
@@ -413,7 +414,7 @@ function S2(c, t) {
   const g = eo(pr(t, t0, .8));
   if (g > 0) {
     c.save(); c.globalAlpha = .38 * g; c.filter = 'blur(9px)';
-    const dx = (t - t0) * 18;
+    const dx = (t - t0) * 18 - (1 - eo(pr(t, 6.95, 1.3))) * 700;
     let x = 120 - dx; [['Vencidos', 17], ['Cliente não responde', 19], ['Conversa parada', 14]].forEach(([l, n]) => { x += (chip(c, l, n, x, 120, 1, { size: 30 }) || 300) + 24; });
     button(c, 'Oferecer condição', 1240 + dx * .6, 930, 420, 74, 1, { icon: 'spark' });
     card(c, 60 + dx * .4, 820, 520, 150, { r: 26 }); txt(c, '5%', 140 + dx * .4, 915, 64, C.ink);
@@ -421,16 +422,56 @@ function S2(c, t) {
     c.restore();
   }
   kicker(c, 'NOVIDADE NO PORTAL', 960, 490, t, Wd(2, 'hoje') - .3, { al: 'center' });
-  rise(c, 'Hoje, mais tarde.', 960, 620, 116, C.ink, t, Wd(2, 'hoje') - .2, { al: 'center' });
+  { const k = pr(t, 6.98, .55); if (k > 0) { const e = eo5(k); c.save(); c.translate(960, 585); const sc = lerp(1.9, 1, e) * (1 + .03 * Math.sin(Math.PI * pr(t, 7.5, .3))); c.scale(sc, sc); c.translate(-960, -585); txt(c, 'Hoje, mais tarde.', 960, 620, 116, C.ink, { al: 'center', a: clamp(k * 2.5), blur: (1 - e) * 14 }); c.restore(); } }
   rise(c, 'Fica ligado, time.', 960, 692, 38, C.coral, t, Wd(2, 'fica') - .2, { al: 'center', w: 600 });
   const lk = eo(pr(t, Wd(2, 'time') + .2, .8));
   if (lk > 0) { const lw = 230, lh = lw * IMG.logo.height / IMG.logo.width; c.save(); c.globalAlpha = lk; c.drawImage(IMG.logoN, 960 - lw / 2, 752 + 10 * (1 - lk), lw, lh); c.restore(); }
 }
 const SCN = [S0, S1, S2];
 
+function rng(seed) { let x = seed >>> 0; return () => { x = (x * 1664525 + 1013904223) >>> 0; return x / 4294967296; }; }
+const T_IN = 5.95, T_OUT = 6.95;
+function irisOverlay(c, t) {
+  if (t < T_IN || t > T_OUT + 1.6) return;
+  const ix = 1430 + (A[1].x - CAM.x), iy = 520 + (A[1].y - CAM.y);
+  if (t < T_OUT) {   // coral wave closes from the icon
+    const r = 30 + 2300 * Math.pow(eio(pr(t, T_IN, .45)), 1.2);
+    c.save(); c.beginPath(); c.arc(t < T_IN + .45 ? ix : 960, t < T_IN + .45 ? iy : 540, r, 0, Math.PI * 2);
+    const g = c.createRadialGradient(960, 540, 0, 960, 540, 1300); g.addColorStop(0, '#F08A7E'); g.addColorStop(1, '#D9645A');
+    c.fillStyle = g; c.fill(); c.restore();
+    return;
+  }
+  const k = pr(t, T_OUT, .5);
+  const r0 = 2300 * eo5(k);
+  if (k < 1 && r0 < 1250) {       // iris opens from the centre
+    const r = r0;
+    c.save(); c.beginPath(); c.rect(-60, -60, W + 120, H + 120); c.arc(960, 560, r, 0, Math.PI * 2, true);
+    const g = c.createRadialGradient(960, 540, 0, 960, 540, 1300); g.addColorStop(0, '#F08A7E'); g.addColorStop(1, '#D9645A');
+    c.fillStyle = g; c.fill('evenodd'); c.restore();
+  }
+  // shockwave rings
+  for (const [d, w0] of [[0, 10], [.12, 5]]) {
+    const q = pr(t, T_OUT + d, .9); if (q <= 0 || q >= 1) continue;
+    c.save(); c.globalAlpha = (1 - q) * .8; c.strokeStyle = C.coral; c.lineWidth = w0 * (1 - q) + 1;
+    c.beginPath(); c.arc(960, 560, 120 + 1100 * eo(q), 0, Math.PI * 2); c.stroke(); c.restore();
+  }
+  // sparks
+  const q = pr(t, T_OUT, 1.4);
+  if (q > 0 && q < 1) {
+    const r = rng(42);
+    for (let i = 0; i < 70; i++) {
+      const a = r() * Math.PI * 2, sp = 300 + r() * 900, sz = 3 + r() * 7;
+      const d = sp * eo(q), x = 960 + Math.cos(a) * d, y = 560 + Math.sin(a) * d * .75 + 180 * q * q;
+      c.save(); c.globalAlpha = (1 - q) * (.5 + r() * .5); c.fillStyle = i % 4 ? C.coral : C.navy;
+      c.beginPath(); c.arc(x, y, sz * (1 - q * .6), 0, Math.PI * 2); c.fill(); c.restore();
+    }
+  }
+}
 function composite(c, t) {
   CAM = camAt(t);
+  const shk = (1 - pr(t, T_OUT, .5)) * (t > T_OUT ? 1 : 0);
   drawBG(c, t);
+  c.save(); if (shk > 0) c.translate(Math.sin(t * 90) * 14 * shk, Math.cos(t * 77) * 10 * shk);
   camera.position.set(toU(CAM.x), -toU(CAM.y), D); camera.lookAt(toU(CAM.x), -toU(CAM.y), 0);
   upd3D(t); contactShadows(c); renderer.render(scene, camera); c.drawImage(glc, 0, 0);
   for (let i = 0; i < A.length; i++) {
@@ -438,6 +479,8 @@ function composite(c, t) {
     const ox = A[i].x - CAM.x, oy = A[i].y - CAM.y; if (Math.abs(ox) > 2200) continue;
     c.save(); c.translate(ox, oy); SCN[i](c, t); c.restore();
   }
+  irisOverlay(c, t);
+  c.restore();
   const fi = 1 - eo(pr(t, 0, .5)), fo = eio(pr(t, CUES.duration - .6, .6));
   if (fi > 0 || fo > 0) { c.fillStyle = `rgba(244,243,240,${Math.max(fi, fo)})`; c.fillRect(0, 0, W, H); }
 }

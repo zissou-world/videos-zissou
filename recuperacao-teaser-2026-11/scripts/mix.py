@@ -12,7 +12,7 @@ def Wd(si, w, n=1):
             if k == n: return x['t']
     raise SystemExit(f'palavra {w} na cena {si}')
 SC = cues['scenes']; TR = [(SC[i]['voEnd'] + SC[i + 1]['voStart']) / 2 for i in range(len(SC) - 1)]
-SFX = [('reveal', .3, -20)] + [('whoosh', t - .55, -17) for t in TR]
+SFX = [('reveal', .3, -20), ('whoosh', TR[0] - .55, -17), ('riser', 5.5, -13), ('impact', 6.9, -9)]
 POPS = [(0, 'esfriou', 'pop'), (1, 'venda', 'snap'), (2, 'hoje', 'pop'), (2, 'ligado', 'click')]
 SFX += [(k, Wd(si, w) - .05, -21 if k == 'tick' else (-16 if k == 'click' else -18)) for si, w, k in POPS]
 SFX += [('swell', Wd(1, 'ele') - 1.0, -16), ('reveal', Wd(2, 'time') + .3, -17)]

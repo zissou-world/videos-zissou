@@ -2,13 +2,8 @@
 import json, os, urllib.request
 key = os.environ.get('ELEVENLABS_API_KEY', 'proxy-injected')
 FX = {
-  'whoosh': ('soft cinematic air whoosh, smooth camera move, subtle, clean, no impact', 1.4),
-  'swell': ('gentle rising shimmer swell, airy, elegant transition, subtle', 2.0),
-  'snap': ('soft satisfying click of a smooth block locking into place, premium, short, muted', 0.6),
-  'reveal': ('warm soft light reveal, gentle airy tone, very subtle', 1.5),
-  'pop': ('soft clean user interface pop, glassy, subtle, short', 0.5),
-  'click': ('soft premium user interface tap click, short, clean, subtle', 0.6),
-  'tick': ('quick soft digital counter ticking up, subtle, clean', 1.0),
+  'riser': ('cinematic tension riser, rising whoosh building up, clean, no impact at end', 1.4),
+  'impact': ('deep cinematic boom impact with bright shimmer tail, trailer hit, clean', 2.0),
 }
 os.makedirs('audio/sfx', exist_ok=True)
 for k, (txt, d) in FX.items():
