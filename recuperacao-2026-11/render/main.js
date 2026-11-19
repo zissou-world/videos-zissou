@@ -298,7 +298,7 @@ function build(iconPts) {
   addIcon(4, mTag(), 1690, 380, .95, { ry: -.25, delay: .6, anim: 'swing' });
   addIcon(5, mShield(), 480, 540, 1.35, { ry: .35, anim: 'pulse' });
   addIcon(6, mTrend(), 1660, 250, .85, { ry: -.3, anim: 'trend' });
-  addIcon(7, mIcon(iconPts), 960, 300, 1.55, { final: true, anim: 'spin' });
+  addIcon(7, mIcon(iconPts), 960, 306, 1.55, { final: true, anim: 'spin' });
 }
 function upd3D(t) {
   for (const ic of ICONS) {
@@ -594,11 +594,12 @@ function S6(c, t) {
 }
 function S7(c, t) {
   const s = SC[7];
-  rise(c, 'A condição certa,', 960, 640, 84, C.ink, t, Wd(7, 'condicao') - .25, { al: 'center' });
-  rise(c, 'para o cliente certo,', 960, 740, 84, C.ink, t, Wd(7, 'cliente') - .25, { al: 'center' });
-  rise(c, 'na hora certa.', 960, 840, 84, C.coral, t, Wd(7, 'hora') - .25, { al: 'center' });
+  // balanced vertical stack centred on the frame: icon (~170px) · 70 · 3 lines · 60 · logo
+  rise(c, 'A condição certa,', 960, 523, 84, C.ink, t, Wd(7, 'condicao') - .25, { al: 'center' });
+  rise(c, 'para o cliente certo,', 960, 621, 84, C.ink, t, Wd(7, 'cliente') - .25, { al: 'center' });
+  rise(c, 'na hora certa.', 960, 719, 84, C.coral, t, Wd(7, 'hora') - .25, { al: 'center' });
   const lk = eo(pr(t, Wd(7, 'bora') + .2, .8));
-  if (lk > 0) { const lw = 260, lh = lw * IMG.logo.height / IMG.logo.width; c.save(); c.globalAlpha = lk; c.drawImage(IMG.logoN, 960 - lw / 2, 920 + 12 * (1 - lk), lw, lh); c.restore(); }
+  if (lk > 0) { const lw = 260, lh = lw * IMG.logo.height / IMG.logo.width; c.save(); c.globalAlpha = lk; c.drawImage(IMG.logoN, 960 - lw / 2, 792 + 12 * (1 - lk), lw, lh); c.restore(); }
 }
 const SCN = [S0, S1, S2, S3, S4, S5, S6, S7];
 
