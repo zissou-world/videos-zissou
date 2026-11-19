@@ -9,7 +9,7 @@ LINES = {
   'l2': ("Com a Recuperação, o portal ajuda você a trazer esse cliente de volta, com uma condição especial e prazo curto.", WARM),
   'l3': ("Em Meus Orçamentos, abra a aba Recuperação.", WARM),
   'l4': ("Os filtros inteligentes mostram quem esfriou: orçamentos vencidos, clientes que não respondem e conversas paradas.", WARM),
-  'l5': ("Selecione os orçamentos de uma vez e toque em Oferecer condição.", WARM),
+  'l5': ("Selecione de uma vez os orçamentos do time todo da loja, não só os seus, e toque em Oferecer condição.", HOT),
   'l6': ("Escolha cinco ou dez por cento de desconto extra e a validade, por exemplo, até as vinte e três e cinquenta e nove de hoje.", WARM),
   'l7': ("Dentro da sua alçada, a mensagem sai na hora. Acima dela, vai para aprovação da coordenação, com o motivo.", WARM),
   'l8': ("E o sistema protege a sua venda: deixa de fora quem comprou há pouco ou já está conversando com você.", WARM),

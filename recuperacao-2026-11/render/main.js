@@ -179,6 +179,7 @@ function mQuote() {
   // link chain
   const ring = (x, y) => { const m = mesh(new THREE.TorusGeometry(.2, .065, 16, 40), M.navy, x, y, .25); m.scale.set(1.5, 1, 1); m.rotation.z = .7; return m; };
   g.add(ring(-.62, -1.1)); g.add(ring(-.3, -.82));
+  g.userData.badge = badge;
   return sh(g);
 }
 function mStore() {
@@ -266,7 +267,8 @@ function mFunnel() {
   const prof = [[0, -1.2], [.22, -1.2], [.24, -1.15], [.24, -.25], [1.15, .75], [1.25, .95], [1.28, 1.05], [1.2, 1.1], [1.08, .98], [.12, -.18], [0, -.18]].map(p => new THREE.Vector2(p[0], p[1]));
   g.add(new THREE.Mesh(new THREE.LatheGeometry(prof, 72), M.coral));
   g.add(mesh(new THREE.TorusGeometry(1.2, .07, 16, 72).rotateX(Math.PI / 2), M.white, 0, 1.03, 0));
-  for (let i = 0; i < 3; i++) g.add(mesh(new THREE.SphereGeometry(.17, 24, 16), i === 1 ? M.navy : M.white, -.45 + i * .45, 1.55 + (i % 2) * .25, 0));
+  g.userData.balls = [];
+  for (let i = 0; i < 3; i++) { const b = mesh(new THREE.SphereGeometry(.17, 24, 16), i === 1 ? M.navy : M.white, -.45 + i * .45, 1.55, 0); g.add(b); g.userData.balls.push(b); }
   return sh(g);
 }
 function mShield() {
@@ -274,14 +276,15 @@ function mShield() {
   const s = new THREE.Shape(); s.moveTo(0, 1.25); s.bezierCurveTo(.5, 1.0, .95, .98, 1.1, .95); s.bezierCurveTo(1.1, .1, .9, -.75, 0, -1.3); s.bezierCurveTo(-.9, -.75, -1.1, .1, -1.1, .95); s.bezierCurveTo(-.95, .98, -.5, 1.0, 0, 1.25);
   g.add(new THREE.Mesh(ext(s, .32, .12, 6), M.navy));
   const ck = new THREE.Shape(); ck.moveTo(-.45, .02); ck.lineTo(-.12, -.32); ck.lineTo(.5, .32); ck.lineTo(.38, .44); ck.lineTo(-.12, -.07); ck.lineTo(-.33, .15); ck.closePath();
-  g.add(mesh(ext(ck, .1, .05, 3), M.coral, 0, -.02, .32));
+  const ckm = mesh(ext(ck, .1, .05, 3), M.coral, 0, -.02, .32); g.add(ckm); g.userData.check = ckm;
   return sh(g);
 }
 function mTrend() {
   const g = new THREE.Group();
-  [.6, 1.0, 1.5].forEach((h, i) => g.add(mesh(new RoundedBoxGeometry(.42, h, .42, 3, .07), M.white, -.7 + i * .62, -1.0 + h / 2, 0)));
+  g.userData.bars = [];
+  [.6, 1.0, 1.5].forEach((h, i) => { const b = mesh(new RoundedBoxGeometry(.42, h, .42, 3, .07), M.white, -.7 + i * .62, 0, 0); b.geometry.translate(0, h / 2, 0); b.position.y = -1.0; g.add(b); g.userData.bars.push(b); });
   const s = new THREE.Shape(); s.moveTo(-1.2, -.35); s.lineTo(-.35, .35); s.lineTo(.05, -.02); s.lineTo(.75, .65); s.lineTo(.55, .82); s.lineTo(1.25, .95); s.lineTo(1.1, .25); s.lineTo(.92, .45); s.lineTo(.05, -.38); s.lineTo(-.35, -.02); s.lineTo(-1.05, -.55); s.closePath();
-  g.add(mesh(ext(s, .16, .05, 3), M.coral, 0, .3, .35));
+  const ar = mesh(ext(s, .16, .05, 3), M.coral, 0, .3, .35); g.add(ar); g.userData.arrow = ar;
   return sh(g);
 }
 
@@ -289,13 +292,13 @@ function mTrend() {
 const ICONS = [];
 function addIcon(i, model, sx, sy, scale, opt = {}) { const grp = new THREE.Group(); grp.add(model); scene.add(grp); ICONS.push({ i, grp, model, sx, sy, scale, opt, sh: { a: 0 } }); }
 function build(iconPts) {
-  addIcon(0, mIcon(iconPts), 1430, 450, 1.7, { ry: -.3 });
-  addIcon(0, mQuote(), 1650, 700, .75, { ry: -.45, delay: .5 });
-  addIcon(2, mFunnel(), 1500, 560, 1.25, { ry: 0 });
-  addIcon(4, mTag(), 1690, 380, .95, { ry: -.25, delay: .6 });
-  addIcon(5, mShield(), 480, 540, 1.35, { ry: .35 });
-  addIcon(6, mTrend(), 1660, 250, .85, { ry: -.3 });
-  addIcon(7, mIcon(iconPts), 960, 300, 1.55, { final: true });
+  addIcon(0, mIcon(iconPts), 1430, 450, 1.7, { ry: -.3, anim: 'spin' });
+  addIcon(0, mQuote(), 1650, 700, .75, { ry: -.45, delay: .5, anim: 'stamp' });
+  addIcon(2, mFunnel(), 1500, 560, 1.25, { ry: 0, anim: 'funnel' });
+  addIcon(4, mTag(), 1690, 380, .95, { ry: -.25, delay: .6, anim: 'swing' });
+  addIcon(5, mShield(), 480, 540, 1.35, { ry: .35, anim: 'pulse' });
+  addIcon(6, mTrend(), 1660, 250, .85, { ry: -.3, anim: 'trend' });
+  addIcon(7, mIcon(iconPts), 960, 300, 1.55, { final: true, anim: 'spin' });
 }
 function upd3D(t) {
   for (const ic of ICONS) {
@@ -303,13 +306,27 @@ function upd3D(t) {
     const vis = t > s0 && t < s1;
     ic.grp.visible = vis; ic.sh.a = 0; if (!vis) continue;
     const intro = SC[ic.i].voStart - .55 + (ic.opt.delay || 0);
-    const k = backO(pr(t, intro, 1.0));
+    const kr = pr(t, intro, 1.1), k = backO(kr);
     const sc = ic.scale;
     const p = scenePos(ic.i, ic.sx, ic.sy, 0);
-    const bob = Math.sin(t * 1.3 + ic.i + ic.sx) * .08;
-    ic.grp.position.copy(p).add(V(0, bob, 0));
-    ic.grp.scale.setScalar(Math.max(.001, sc * k));
-    ic.grp.rotation.set(.12 + Math.sin(t * .7 + ic.i) * .05, (ic.opt.ry ?? -.35) + Math.sin(t * .5 + ic.i) * .18 + (1 - clamp(k)) * 1.2, Math.sin(t * .6) * .03);
+    const bob = Math.sin(t * 1.6 + ic.i + ic.sx) * .14;
+    const rise = (1 - eo(kr)) * -1.6;
+    ic.grp.position.copy(p).add(V(0, bob + rise, 0));
+    let sx = 1, sy = 1, extraY = 0, extraZ = 0;
+    const lt = t - intro - 1.1; // time since landing
+    if (ic.opt.anim === 'spin' && lt > 0) { const ph = (lt % 4.2) / 4.2; extraY = Math.PI * 2 * eio(pr(ph, .62, .3)); const sq = pr(ph, .9, .1); sy = 1 + .08 * Math.sin(Math.PI * sq); sx = 1 - .05 * Math.sin(Math.PI * sq); }
+    if (ic.opt.anim === 'swing') extraZ = Math.sin(t * 2.4) * .22 * clamp(lt + 1);
+    if (ic.opt.anim === 'pulse') { extraY = (1 - eo(kr)) * Math.PI * 2; }
+    if (ic.opt.anim === 'funnel') extraZ = Math.sin(t * 1.8) * .08;
+    // landing squash
+    const land = pr(t, intro + .55, .45); const sqk = Math.sin(Math.PI * land) * (land < 1 ? 1 : 0);
+    ic.grp.scale.set(Math.max(.001, sc * k * sx * (1 + .1 * sqk)), Math.max(.001, sc * k * sy * (1 - .1 * sqk)), Math.max(.001, sc * k));
+    ic.grp.rotation.set(.12 + Math.sin(t * .9 + ic.i) * .08, (ic.opt.ry ?? -.35) + Math.sin(t * .7 + ic.i) * .3 + (1 - eo(kr)) * Math.PI * 2 + extraY, Math.sin(t * .8) * .05 + extraZ);
+    const ud = ic.model.userData;
+    if (ud.badge) { const ph = Math.max(0, lt) % 2.6; const pk = pr(ph, 0, .5); ud.badge.scale.setScalar(1 + .35 * Math.sin(Math.PI * pk) * (lt > 0 ? 1 : 0)); ud.badge.rotation.z = -.4 * Math.sin(Math.PI * pk) * (lt > 0 ? 1 : 0); }
+    if (ud.balls) ud.balls.forEach((b, j) => { const ph = ((t * .55 + j / 3) % 1); b.position.y = lerp(2.0, -1.0, eio(ph)); b.position.x = lerp(-.45 + j * .45, 0, eo(pr(ph, .25, .45))); b.scale.setScalar(ph > .85 ? Math.max(.01, 1 - (ph - .85) / .15) : Math.min(1, ph * 8)); });
+    if (ud.check) { const ts = [Wd(5, 'protege'), Wd(5, 'comprou'), Wd(5, 'conversando')]; let pu = 0; for (const x of ts) { const q = pr(t, x - .2, .45); pu = Math.max(pu, Math.sin(Math.PI * q)); } ud.check.scale.setScalar(1 + .45 * pu); ic.grp.scale.multiplyScalar(1 + .06 * pu); }
+    if (ud.bars) { ud.bars.forEach((b, j) => { b.scale.y = Math.max(.01, backO(pr(t, intro + .5 + j * .25, .7))); }); const a = pr(t, intro + 1.2, .8); ud.arrow.scale.setScalar(Math.max(.01, backO(a))); ud.arrow.position.set(.3 * (1 - eo(a)) + Math.sin(t * 3) * .04, .3 - (1 - eo(a)) * .6 + Math.abs(Math.sin(t * 2.2)) * .12, .35); }
     if (!ic.opt.final) ic.sh = { a: clamp(k), x: A[ic.i].x + ic.sx, y: A[ic.i].y + ic.sy + 150 * sc - bob * 100, w: 140 * sc };
   }
   const f = V(toU(CAM.x), -toU(CAM.y), 0);
@@ -436,8 +453,19 @@ function S2(c, t) {
 const QUOTES = [['Mariana Costa', '#4812', 'Itaim Bibi · Ana', 'R$ 21.480', 'Orçamento vencido'], ['Rafael Duarte', '#4798', 'Itaim Bibi · Bruno', 'R$ 9.870', 'Nunca respondeu'], ['Beatriz Lima', '#4805', 'Itaim Bibi · Carla', 'R$ 14.390', 'Conversa parada'], ['Paulo Nunes', '#4779', 'Itaim Bibi · Ana', 'R$ 4.260', 'Vencido há 2 dias']];
 function S3(c, t) {
   const s = SC[3], t0 = s.voStart - .4;
-  kicker(c, '2 · SELECIONE E OFEREÇA', L, 210, t, t0);
-  const ck = i => pr(t, Wd(3, 'selecione') + .15 + i * .32, .4);
+  kicker(c, '2 · SELECIONE DO TIME TODO', L, 220, t, t0);
+  const tt = Wd(3, 'time') - .05;
+  const ck = i => pr(t, tt + .55 + i * .3, .4);
+  { const sp = ap(t, t0 + .2, .5); if (sp.a > 0) {
+    const sx = L + 1580 - 600, sy = 175, sw = 600, sh2 = 66, on = eio(pr(t, tt, .4));
+    c.save(); c.globalAlpha = sp.a;
+    rr(c, sx, sy, sw, sh2, 33); c.fillStyle = '#E9EAEE'; c.fill();
+    rr(c, sx + 5 + on * (sw / 2), sy + 5, sw / 2 - 10, sh2 - 10, 28); c.fillStyle = on > .5 ? C.coral : '#fff'; c.shadowColor = 'rgba(0,0,0,.12)'; c.shadowBlur = 12; c.fill(); c.shadowColor = 'transparent';
+    txt(c, 'Meus', sx + sw / 4, sy + 43, 26, on > .5 ? C.slate : C.ink, { al: 'center' });
+    txt(c, 'Time todo da loja', sx + sw * .75, sy + 43, 26, on > .5 ? '#fff' : C.slate, { al: 'center' });
+    c.restore();
+    const lp = ap(t, tt + .3, .5); if (lp.a > 0) txt(c, 'Orçamentos de todos os vendedores da loja', L + 1580, sy + 112, 22, C.coral, { al: 'right', w: 600, a: lp.a });
+  } }
   const nSel = [0, 1, 2, 3].filter(i => ck(i) > 0).length;
   // selection bar
   const bp = ap(t, t0 + .1, .5);
@@ -462,8 +490,8 @@ function S3(c, t) {
     c.restore();
   });
   const tb = Wd(3, 'oferecer') - .1;
-  const cp = cursorAt(t, [[t0 + .6, 1300, 980], [Wd(3, 'selecione'), L + 56, 458], [Wd(3, 'selecione') + 1.2, L + 56, 863], [tb + .2, L + 1580 - 230, 312]]);
-  if (cp) cursor(c, cp[0], cp[1], pr(t, tb + .25, .5));
+  const cp = cursorAt(t, [[t0 + .6, 1300, 980], [tt - .05, L + 1580 - 150, 208], [tt + .45, L + 56, 458], [tt + 1.45, L + 56, 863], [tb + .2, L + 1580 - 230, 312]]);
+  if (cp) cursor(c, cp[0], cp[1], Math.max(pr(t, tb + .25, .5), pr(t, tt, .5) < 1 ? pr(t, tt, .5) : 0));
 }
 function S4(c, t) {
   const s = SC[4], t0 = s.voStart - .45;
