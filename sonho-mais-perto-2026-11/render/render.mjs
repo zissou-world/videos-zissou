@@ -45,7 +45,7 @@ if (mode === 'stills') {
     const t0 = Date.now();
     for (let f = c0; f < Math.min(c0 + CH, f1); f++) {
       await page.evaluate(t => window.renderAt(t), f / FPS);
-      const buf = await canvas.screenshot({ type: 'jpeg', quality: 96 });
+      const buf = await canvas.screenshot({ type: 'jpeg', quality: 96, timeout: 180000 });
       if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
     }
     ff.stdin.end();
