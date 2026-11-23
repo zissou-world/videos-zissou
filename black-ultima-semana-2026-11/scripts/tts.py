@@ -9,15 +9,15 @@ LINES = {
   'l2': ("Chegamos à semana mais importante do ano. É a última semana da Black da Ziçu!", HOT),
   'l3': ("A gente chegou até aqui em um excelente ritmo, com muita dedicação e muita entrega de vocês.", WARM),
   'l4': ("Só em novembro, já são três milhões e trezentos mil reais em vendas. Trinta e dois por cento a mais que no mesmo período do ano passado.", WARM),
-  'l5': ("E o maior mês da história da Ziçu foi justamente novembro do ano passado: quatro milhões e cento e vinte mil. Já chegamos a oitenta por cento disso. Faltam só oitocentos mil.", WARM),
+  'l5': ("E o nosso objetivo é seis milhões em novembro. Bem acima do recorde da Ziçu, de quatro milhões e cento e vinte mil. Já temos três milhões e trezentos mil. Faltam quase dois milhões e setecentos mil.", WARM),
   'l6': ("Sabe quanto a gente vendeu nos últimos oito dias de novembro do ano passado? Um milhão e seiscentos mil. Só na Black Friday, mais de quinhentos mil em um único dia.", WARM),
-  'l7': ("Agora é hora de colocar toda a nossa energia nessa reta final e buscar esse recorde juntos!", HOT),
+  'l7': ("Dessa vez, precisamos de muito mais: mais de trezentos e trinta mil por dia, até o fim do mês. É esforço máximo! Toda a nossa energia para passar dos seis milhões, juntos!", HOT),
   'l8': ("E eu quero que cada um pense no seu sonho. Naquela conquista que você quer tanto. Essa semana é uma oportunidade de chegar mais perto dela!", CALM),
   'l9': ("Cada cliente que entra, cada conversa, cada orçamento que vocês retomam pode virar uma grande venda.", WARM),
   'l10': ("Vamos estar presentes, ouvir o cliente, caprichar no atendimento e não deixar nenhuma oportunidade passar!", HOT),
   'l11': ("Se precisar de ajuda, chama. Vamos apoiar uns aos outros e fazer acontecer como time!", WARM),
   'l12': ("Eu acredito muito em vocês. Vamos terminar essa semana com orgulho de tudo o que fizemos!", WARM),
-  'l13': ("Bora vender, bora bater recorde e fazer a maior Black da história da Ziçu!", HOT),
+  'l13': ("Bora vender, bora passar dos seis milhões e fazer a maior Black da história da Ziçu!", HOT),
 }
 only = sys.argv[1:] or list(LINES)
 key = os.environ.get('ELEVENLABS_API_KEY', 'proxy-injected')

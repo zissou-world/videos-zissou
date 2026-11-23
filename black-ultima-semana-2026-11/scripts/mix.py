@@ -15,8 +15,8 @@ SC = cues['scenes']; TR = [(SC[i]['voEnd'] + SC[i + 1]['voStart']) / 2 for i in 
 SFX = [('reveal', .3, -20)] + [('whoosh', t - .55, -17) for t in TR]
 POPS = [(0, 'time', 'pop'), (0, 'ultima', 'snap'), (0, 'black', 'pop'),
         (1, 'excelente', 'pop'), (1, 'tres', 'tick'), (1, 'trinta', 'pop'),
-        (2, 'quatro', 'tick'), (2, 'oitenta', 'snap'), (2, 'faltam', 'pop'),
-        (3, 'oito', 'tick'), (3, 'black', 'pop'), (3, 'milhao', 'snap'), (3, 'energia', 'snap'),
+        (2, 'seis', 'snap'), (2, 'quatro', 'tick'), (2, 'temos', 'tick'), (2, 'faltam', 'pop'),
+        (3, 'oito', 'tick'), (3, 'black', 'pop'), (3, 'milhao', 'snap'), (3, 'trezentos', 'pop'), (3, 'esforco', 'snap'),
         (4, 'sonho', 'pop'),
         (5, 'cliente', 'click'), (5, 'conversa', 'click'), (5, 'orcamento', 'click'), (5, 'grande', 'pop'),
         (5, 'presentes', 'tick'), (5, 'ouvir', 'tick'), (5, 'caprichar', 'tick'), (5, 'oportunidade', 'tick'),

@@ -381,7 +381,7 @@ function build(iconPts) {
   addIcon(0, mBag(), 1560, 740, .8, { ry: -.45, delay: Wd(0, 'chegamos') - SC[0].voStart, anim: 'swing' });
   addIcon(1, mTrend(), 1590, 300, 1.15, { ry: -.4 });
   addIcon(2, mTrophy(), 1600, 300, 1.05, { ry: -.3, anim: 'spin' });
-  addIcon(3, mBolt(), 1620, 300, 1.0, { ry: -.3, delay: Wd(3, 'agora') - SC[3].voStart - .2, anim: 'beat' });
+  addIcon(3, mBolt(), 1730, 240, .85, { ry: -.3, delay: Wd(3, 'esforco') - SC[3].voStart - .5, anim: 'beat' });
   addIcon(4, mStar(), 1440, 500, 1.55, { ry: -.35, anim: 'beat' });
   addIcon(6, mTeam(), 1440, 520, 1.25, { ry: -.25 });
   addIcon(7, mHeart(), 960, 300, 1.05, { ry: -.2, anim: 'beat' });
@@ -531,35 +531,36 @@ function S1(c, t) {
 }
 function S2(c, t) {
   const s = SC[2];
-  kicker(c, 'O RECORDE', L, 210, t, s.voStart - .4);
-  rise(c, 'O maior mês da história da Zissou', L, 320, 48, C.ink, t, Wd(2, 'maior') - .25);
-  rise(c, 'novembro de 2025', L, 380, 40, C.slate, t, Wd(2, 'novembro') - .25);
-  num(c, 4121554, pr(t, Wd(2, 'quatro') - .2, 1.4), L - 6, 520, 128, C.ink, { pre: 'R$ ' });
-  const y = 650, x0 = L, w = 1580, h = 48, tb = Wd(2, 'oitenta') - .5;
-  const pb = ap(t, Wd(2, 'chegamos') - .6, .5);
+  kicker(c, 'O NOSSO OBJETIVO', L, 210, t, s.voStart - .4);
+  rise(c, 'Meta de novembro', L, 320, 48, C.slate, t, Wd(2, 'objetivo') - .3);
+  num(c, 6, pr(t, Wd(2, 'seis') - .25, 1.0), L - 6, 470, 150, C.ink, { pre: 'R$ ', suf: ' milhões', static: true });
+  const y = 650, x0 = L, w = 1580, h = 48;
+  const pb = ap(t, Wd(2, 'recorde') - .5, .5);
   if (pb.a > 0) {
     c.save(); c.globalAlpha = pb.a;
     rr(c, x0, y, w, h, h / 2); c.fillStyle = C.grayL; c.fill();
-    const k = eo(pr(t, tb, 1.1)), fw = Math.max(h, w * .805 * k);
-    const gr = c.createLinearGradient(x0, 0, x0 + fw, 0); gr.addColorStop(0, '#B85A52'); gr.addColorStop(1, C.coral);
-    rr(c, x0, y, fw, h, h / 2); c.fillStyle = gr; c.fill();
-    txt(c, Math.round(80 * k) + '%', x0 + fw - 24, y + 34, 26, '#fff', { al: 'right', a: clamp(k * 3) });
-    txt(c, 'HOJE · R$ 3,32 mi', x0, y + 100, 24, C.slate, { ls: 4, a: clamp(k * 2) });
-    txt(c, 'RECORDE · R$ 4,12 mi', x0 + w, y + 100, 24, C.slate, { ls: 4, al: 'right' });
+    const k = eo(pr(t, Wd(2, 'temos') - .1, 1.1)), fw = Math.max(h, w * .553 * k);
+    if (k > 0) { const gr = c.createLinearGradient(x0, 0, x0 + fw, 0); gr.addColorStop(0, '#B85A52'); gr.addColorStop(1, C.coral); rr(c, x0, y, fw, h, h / 2); c.fillStyle = gr; c.fill();
+      txt(c, 'R$ 3,32 mi · 55%', x0 + fw - 24, y + 34, 24, '#fff', { al: 'right', a: clamp(k * 3) }); }
+    // record marker
+    const rx = x0 + w * .687, rk = pr(t, Wd(2, 'quatro') - .2, .5);
+    if (rk > 0) { c.save(); c.globalAlpha *= clamp(rk * 2); c.fillStyle = C.ink; c.fillRect(rx - 2, y - 18, 4, h + 36);
+      txt(c, 'RECORDE · nov/2025', rx, y - 64, 20, C.slate, { al: 'center', ls: 4 }); txt(c, 'R$ 4,12 mi', rx, y - 30, 30, C.ink, { al: 'center' }); c.restore(); }
+    txt(c, 'META · R$ 6 mi', x0 + w, y + 100, 24, C.coral, { ls: 4, al: 'right' });
     c.restore();
   }
   const tf = Wd(2, 'faltam') - .15, pf = pr(t, tf, .5);
   if (pf > 0) {
-    const gx = x0 + w * .805, gw = w * .195, pulse = .5 + .5 * Math.sin(t * 6);
+    const gx = x0 + w * .553, gw = w * .447, pulse = .5 + .5 * Math.sin(t * 6);
     c.save(); c.globalAlpha = clamp(pf * 2); rr(c, gx + 6, y, gw - 6, h, h / 2); c.lineWidth = 3; c.setLineDash([10, 8]); c.strokeStyle = C.coral; c.stroke(); c.setLineDash([]);
     c.shadowColor = C.coral; c.shadowBlur = 20 + 20 * pulse; rr(c, gx + 6, y, gw - 6, h, h / 2); c.strokeStyle = `rgba(228,121,111,${.4 + .4 * pulse})`; c.stroke(); c.restore();
-    c.save(); c.translate(gx + gw / 2, y - 30); const sc = .7 + .3 * backO(pf); c.scale(sc, sc); c.globalAlpha = clamp(pf * 2);
-    txt(c, 'Faltam só', 0, -70, 30, C.slate, { al: 'center' }); txt(c, 'R$ 804 mil', 0, -16, 56, C.coral, { al: 'center' }); c.restore();
+    c.save(); c.translate(x0, y + 200); const p = ap(t, tf, .5); c.globalAlpha = p.a;
+    txt(c, 'Faltam', 0, p.dy, 40, C.slate); txt(c, 'R$ 2,68 milhões', 172, p.dy, 72, C.coral); c.restore();
   }
 }
 function S3(c, t) {
   const s = SC[3];
-  const tE = Wd(3, 'agora') - .25, dim = 1 - .9 * eio(pr(t, tE, .6));
+  const tE = Wd(3, 'dessa') - .25, dim = 1 - .96 * eio(pr(t, tE, .6));
   c.save(); c.globalAlpha = dim;
   kicker(c, 'A RETA FINAL DE 2025', L, 210, t, s.voStart - .4);
   rise(c, 'Últimos 8 dias de novembro de 2025', L, 290, 44, C.ink, t, Wd(3, 'ultimos') - .3);
@@ -577,9 +578,14 @@ function S3(c, t) {
   num(c, 1.6, pr(t, Wd(3, 'milhao') - .25, 1.0), RX - 4, 720, 104, C.coral, { pre: 'R$ ', suf: ' mi', dec: 1 });
   c.restore();
   if (dim < .99) {
-    rise(c, 'Toda a nossa energia', 960, 530, 96, C.ink, t, Wd(3, 'energia') - .35, { al: 'center' });
-    rise(c, 'na reta final.', 960, 640, 96, C.ink, t, Wd(3, 'reta') - .3, { al: 'center' });
-    rise(c, 'Bora buscar esse recorde juntos!', 960, 750, 54, C.coral, t, Wd(3, 'buscar') - .3, { al: 'center' });
+    rise(c, 'Para passar dos 6 milhões:', 960, 330, 48, C.slate, t, Wd(3, 'precisamos') - .3, { al: 'center' });
+    rise(c, 'R$ 335 mil por dia', 960, 480, 130, C.coral, t, Wd(3, 'trezentos') - .3, { al: 'center' });
+    rise(c, 'de hoje até 30/11', 960, 560, 48, C.ink, t, Wd(3, 'fim') - .35, { al: 'center' });
+    const ek = pr(t, Wd(3, 'esforco') - .25, .5);
+    if (ek > 0) { const wE = tw(c, 'ESFORÇO MÁXIMO', 56, 700, 8) + 110; c.save(); c.globalAlpha = clamp(ek * 2); c.translate(960, 700); const sc = .7 + .3 * backO(ek); c.scale(sc, sc);
+      c.shadowColor = C.coral; c.shadowBlur = 40 * (.6 + .4 * Math.sin(t * 6)); rr(c, -wE / 2, -60, wE, 120, 60); c.fillStyle = C.coral; c.fill(); c.shadowColor = 'transparent';
+      txt(c, 'ESFORÇO MÁXIMO', 0, 20, 56, '#fff', { al: 'center', ls: 8 }); c.restore(); }
+    rise(c, 'Toda a nossa energia, juntos!', 960, 850, 48, C.ink, t, Wd(3, 'energia') - .35, { al: 'center' });
   }
 }
 function S4(c, t) {
@@ -641,9 +647,9 @@ function S8(c, t) {
     c.save(); c.globalAlpha = clamp(2.5 - u * .8); c.translate(x, y); c.rotate(u * 6 * r1 + i); c.fillStyle = i % 3 === 0 ? C.coral : i % 3 === 1 ? '#F6F3EE' : '#9AABC6'; c.fillRect(-7, -3.5, 14, 7); c.restore(); }
   const gk = eo(pr(t, th, 1.0));
   if (gk > 0) { const pu = .85 + .15 * Math.sin(t * 3); c.save(); c.globalAlpha = gk * pu; const g = c.createRadialGradient(960, 690, 0, 960, 690, 720); g.addColorStop(0, 'rgba(228,121,111,.35)'); g.addColorStop(1, 'rgba(228,121,111,0)'); c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore(); }
-  const w1 = tw(c, 'Bora vender.', 50), w2 = tw(c, 'Bora bater recorde.', 50), bx = 960 - (w1 + 28 + w2) / 2;
+  const w1 = tw(c, 'Bora vender.', 50), w2 = tw(c, 'Bora passar dos 6 milhões.', 50), bx = 960 - (w1 + 28 + w2) / 2;
   rise(c, 'Bora vender.', bx, 520, 50, C.slate, t, Wd(8, 'bora') - .2);
-  rise(c, 'Bora bater recorde.', bx + w1 + 28, 520, 50, C.ink, t, Wd(8, 'bora', 2) - .2);
+  rise(c, 'Bora passar dos 6 milhões.', bx + w1 + 28, 520, 50, C.ink, t, Wd(8, 'bora', 2) - .2);
   rise(c, 'A maior Black', 960, 655, 118, C.ink, t, th, { al: 'center' });
   rise(c, 'da história.', 960, 780, 118, C.coral, t, Wd(8, 'historia') - .3, { al: 'center' });
   const lk = eo(pr(t, Wd(8, 'zicu') + .3, .8));
