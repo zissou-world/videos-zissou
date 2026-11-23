@@ -473,7 +473,7 @@ const XL = 70;
 function statement(c, t, rows, t0, t1, o = {}) {
   if (t < t0 - .1 || t > t1 + .6) return;
   let size = o.size || 96; const mw = Math.max(...rows.map(([s]) => tw(c, s, size))); if (mw > 940) size *= 940 / mw;
-  const lh = size * 1.06, y0 = 600 - (rows.length - 1) * lh;
+  const lh = size * 1.06, y0 = 532 - (rows.length - 1) * lh;
   rows.forEach(([s, col], j) => rise(c, s, XL, y0 + j * lh, size, col, t, t0 + j * .09, { out: t1, d: .6 }));
 }
 function marquee(c, t, text, t0, t1, y, o = {}) {
