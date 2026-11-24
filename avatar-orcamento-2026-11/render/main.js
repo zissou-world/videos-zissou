@@ -399,20 +399,20 @@ function mPhone() {
 const ICONS = [];
 function addIcon(model, x, y, scale, tIn, tOut, o = {}) { const grp = new THREE.Group(); grp.add(model); fgScene.add(grp); ICONS.push({ model, grp, x, y, scale, tIn, tOut, o }); }
 let ZICON;
-const HX = 430, HY = 290;
+const HX = 440, HY = 360;
 function build(iconPts) {
   buildTubes();
   const S = SC;
   ZICON = mIcon(iconPts); ZICON.traverse(o => { if (o.isMesh) o.material = new THREE.MeshPhysicalMaterial({ color: 0xFFF6EE, roughness: .35, emissive: 0xFFE8DA, emissiveIntensity: .35, clearcoat: .3 }); });
   const zg = new THREE.Group(); zg.add(ZICON); fgScene.add(zg); ZICON.userData.grp = zg;
-  addIcon(mQuote(), HX, HY, .9, S[0].voStart - .4, S[1].voEnd + .2, { anim: 'stamp' });
-  addIcon(mStore(), HX, HY + 10, .62, S[2].voStart - .3, S[2].voEnd + .2, {});
-  addIcon(mBubbles(), HX, HY, .82, S[3].voStart - .3, S[3].voEnd + .2, { anim: 'swing' });
-  addIcon(mCalendar('NOV', '27'), HX, HY, .85, Wd(4, 'sexta') - .4, S[4].voEnd + .2, { anim: 'swing' });
-  addIcon(mStar(), HX, HY, .85, S[5].voStart - .3, S[5].voEnd + .2, { anim: 'beat' });
-  addIcon(mPhone(), HX, HY + 10, .95, Wd(6, 'abre') - .4, S[6].voEnd + .2, { anim: 'ring' });
-  addIcon(mTeam(), HX, HY + 20, .8, S[7].voStart - .3, S[7].voEnd + .2, {});
-  addIcon(mTrophy(), HX, HY, .9, S[8].voStart - .3, CUES.duration + 1, { anim: 'spin' });
+  addIcon(mQuote(), HX, HY, 1.45, S[0].voStart - .4, S[1].voEnd + .2, { anim: 'stamp' });
+  addIcon(mStore(), HX, HY + 20, 1.0, S[2].voStart - .3, S[2].voEnd + .2, {});
+  addIcon(mBubbles(), HX, HY, 1.3, S[3].voStart - .3, S[3].voEnd + .2, { anim: 'swing' });
+  addIcon(mCalendar('NOV', '27'), HX, HY, 1.4, Wd(4, 'sexta') - .4, S[4].voEnd + .2, { anim: 'swing' });
+  addIcon(mStar(), HX, HY, 1.4, S[5].voStart - .3, S[5].voEnd + .2, { anim: 'beat' });
+  addIcon(mPhone(), HX, HY - 10, 1.5, Wd(6, 'abre') - .4, S[6].voEnd + .2, { anim: 'ring' });
+  addIcon(mTeam(), HX, HY + 30, 1.25, S[7].voStart - .3, S[7].voEnd + .2, {});
+  addIcon(mTrophy(), HX, HY, 1.45, S[8].voStart - .3, CUES.duration + 1, { anim: 'spin' });
 }
 function upd3D(t) {
   for (const ic of ICONS) {
@@ -491,7 +491,7 @@ const XL = 140, HL = '#FFC1B2';
 function statement(c, t, rows, t0, t1, o = {}) {
   if (t < t0 - .1 || t > t1 + .6) return;
   let size = o.size || 78; const mw = Math.max(...rows.map(([s]) => tw(c, s, size))); if (mw > (o.maxw || 760)) size *= (o.maxw || 760) / mw;
-  const lh = size * 1.1, y0 = (o.y || 690) - (rows.length - 1) * lh / 2;
+  const lh = size * 1.1, y0 = (o.y || 735) - (rows.length - 1) * lh / 2;
   rows.forEach(([s, col, ts], j) => {
     const tr = (ts ?? t0 + j * .1) - .15 + (o.delay ?? .2), y = y0 + j * lh, hi = col === HL;
     if (hi) { const k = eo5(pr(t, tr, .6)), ko = eio(pr(t, t1 - .35, .4)); if (k > 0 && ko < 1) { const w = tw(c, s, size) + 36;
@@ -570,11 +570,10 @@ async function composite(c, t) {
   backPhrases(c, t);
   statements(c, t);
   if (AV.n && t > AV.off) { const img = await avatarFrame(t), z = avZoom(t), ax = 1330, ay = 560, a = eo(pr(t, AV.off + .1, .6));
-    shoulderMask(img, t);
+    avx.clearRect(0, 0, W, H); avx.drawImage(img, 0, 0, W, H);
     c.save(); c.globalAlpha = a; c.translate(ax, ay); c.scale(z, z); c.translate(-ax, -ay + (1 - a) * 30); c.drawImage(AVC, 0, 0, W, H); c.restore(); }
   renderer.render(fgScene, camera); c.drawImage(glc, 0, 0);
   sweep(c, t);
-  { const k = ap(t, 3.0, .6); if (k.a > 0) txt(c, 'BLACK ZISSOU  ·  RETOME SEUS CLIENTES', 210, 104, 20, 'rgba(255,240,234,.9)', { ls: 6, a: k.a }); }
   const lk = eo(pr(t, Wd(8, 'time') + .2, .8)); if (lk > 0) { const lw = 230, lh = lw * IMG.logo.height / IMG.logo.width; c.save(); c.globalAlpha = lk; c.drawImage(IMG.logoN, XL, 880 + 10 * (1 - lk), lw, lh); c.restore(); }
   renderer.render(nearScene, camera); c.save(); c.filter = 'blur(16px)'; c.globalAlpha = .95; c.drawImage(glc, 0, 0); c.restore();
   grade(c, t);

@@ -20,6 +20,7 @@ def key(rgb):
     fg = np.clip(fg, 0, 255)
     # dark tuft on top of the head (an object behind the head in the source selfie)
     rows = np.where((a[:, 1000:1700] > .5).sum(1) > 20)[0]
+    top = rows[0] if len(rows) else 120
     if len(rows):
         top = rows[0]; band = slice(max(0, top - 5), top + 70)
         lum = fg[band, :, 0] * .3 + fg[band, :, 1] * .59 + fg[band, :, 2] * .11
@@ -28,6 +29,18 @@ def key(rgb):
         dark = (lum < 58) & (a[band] > 0) & (yy < first[None, :] + 26)                 # only the outer crust of the head
         m = gaussian_filter(dark.astype(np.float32), 2.0)
         a[band] *= 1 - np.clip(m * 1.6, 0, 1)
+    # shoulders: the reference had its shoulders extended; let the outer cloth fall into shadow,
+    # but never the skin (hands that gesture beside the body stay intact)
+    cols = np.where((a[top:top + 60, :] > .5).any(0))[0] if len(rows) else np.array([1330])
+    cx = (cols.min() + cols.max()) / 2 if len(cols) else 1330
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    dx = np.abs(xx - cx); v = np.clip((yy - (top + 590)) / 170, 0, 1)
+    fade = np.clip((dx - 285) / (480 - 285), 0, 1) * v
+    lum = fg[..., 0] * .3 + fg[..., 1] * .59 + fg[..., 2] * .11
+    skin = np.clip((lum - 60) / 45, 0, 1) * np.clip((fg[..., 0] - fg[..., 2] - 10) / 40, 0, 1)
+    a = a * (1 - fade * (1 - skin))
+    dark = np.clip((dx - 150) / (480 - 150), 0, 1) * np.clip((yy - (top + 480)) / 220, 0, 1) * .85 * (1 - skin)
+    fg = fg * (1 - dark[..., None]) + np.array([20, 4, 5], np.float32) * dark[..., None]
     # light wrap: the outer edge picks up a little of the red wall
     inner = gaussian_filter(a, 6)
     edge = np.clip(a - inner, 0, 1) * 2.2 + (1 - a) * .0
