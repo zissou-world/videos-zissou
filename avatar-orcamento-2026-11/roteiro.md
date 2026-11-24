@@ -26,4 +26,6 @@
 | Precisou de ajuda? Chama o líder, me chama!… | Precisou de ajuda? Chama! → Vamos construir essas vendas juntos. | Time | 5 CLIENTES · RETOME AGORA |
 | Eu quero ver vocês comemorando… Bora vender, time! | Comemorar resultado. Realizar sonhos. → Bora vender, time! + logo | Troféu | BORA VENDER |
 
+**Recorte:** `scripts/recorte.py` faz uma chave por diferença de verde, com alfa suave nos fios e a cor da borda descontaminada. Também remove o tufo escuro no topo da cabeça, que vinha da selfie original, e aplica um leve "light wrap" vermelho na borda.
+
 **Custo na HeyGen:** cerca de US$ 5,10 por 59 s de avatar.
