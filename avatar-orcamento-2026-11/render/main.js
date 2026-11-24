@@ -358,29 +358,29 @@ const pmrem = new THREE.PMREMGenerator(renderer);
 const ENV = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 const D = 20;
 const camera = new THREE.PerspectiveCamera(2 * Math.atan(5.4 / D) * 180 / Math.PI, W / H, .5, 200);
-const bgScene = new THREE.Scene(); bgScene.environment = ENV; bgScene.environmentIntensity = .5; bgScene.fog = new THREE.Fog(0x120B09, 17, 44);
+const bgScene = new THREE.Scene(); bgScene.environment = ENV; bgScene.environmentIntensity = .5; bgScene.fog = new THREE.Fog(0x1A0607, 24, 50);
 const nearScene = new THREE.Scene(); nearScene.environment = ENV; nearScene.environmentIntensity = .5;
 const fgScene = new THREE.Scene(); fgScene.environment = ENV; fgScene.environmentIntensity = .8;
 { const k = new THREE.DirectionalLight(0xffffff, 1.6); k.position.set(-6, 10, 12); fgScene.add(k); fgScene.add(new THREE.HemisphereLight(0xfff4ea, 0x2a1810, .8));
   const r = new THREE.DirectionalLight(0xE4796F, 1.2); r.position.set(8, 3, -6); fgScene.add(r); }
-for (const sc of [bgScene, nearScene]) { const k = new THREE.DirectionalLight(0xffe2c8, 1.5); k.position.set(-10, 12, 9); sc.add(k); sc.add(new THREE.HemisphereLight(0xffd2b8, 0x140b08, .5));
-  const c = new THREE.PointLight(0xFF9A6E, 70, 32, 1.6); c.position.set(3, -2, -2); sc.add(c); }
+for (const sc of [bgScene, nearScene]) { const k = new THREE.DirectionalLight(0xfff0e6, 1.25); k.position.set(-4, 6, 14); sc.add(k); sc.add(new THREE.HemisphereLight(0xffd8cc, 0x1a0607, .45)); }
+const WALLGLOW = new THREE.PointLight(0xffb49a, 0, 9, 1.5); bgScene.add(WALLGLOW);
 const toU = px => px / 100;
 const sp = (px, py, z = 0) => V(toU(px - W / 2), -toU(py - H / 2), z);
 const TUBES = [];
-const TERRA = [0xB25F43, 0xC56D4D, 0x9E5038, 0xD4825F, 0xA85A40, 0xBF6A4A, 0x8F4631];
+const TERRA = [0x7E1A1E, 0x8A1F23, 0x942327, 0x861C21, 0x9A2629, 0x821C20];
 function tube(scene, x, z, r, col, row) {
-  const mat = new THREE.MeshPhysicalMaterial({ color: col, roughness: .62, clearcoat: .15, clearcoatRoughness: .6, sheen: .3, sheenColor: new THREE.Color(0xffc9a8) });
+  const mat = new THREE.MeshPhysicalMaterial({ color: col, roughness: .78, sheen: .5, sheenRoughness: .6, sheenColor: new THREE.Color(0xff8a7a) });
   const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 30, 64), mat); m.position.set(x, 0, z); scene.add(m);
   TUBES.push({ m, row, x0: x, ph: Math.random() * 6.28 }); return m;
 }
 function buildTubes() {
   let a = 4242; const rnd = () => (a = (a * 16807) % 2147483647) / 2147483647;
   // store-like wall of terracotta tubes, two depths
-  for (let x = -19; x < 19; x += .92) tube(bgScene, x, -6 - rnd() * .3, .42 + rnd() * .06, TERRA[Math.floor(rnd() * TERRA.length)], 0);
-  for (let x = -24; x < 24; x += 1.5) tube(bgScene, x + .4, -13 - rnd(), .66, TERRA[Math.floor(rnd() * TERRA.length)], 1);
+  // dense wall of matte red tubes touching each other, like the store
+  for (let x = -21; x < 21; x += .9) tube(bgScene, x, -6, .46, TERRA[Math.floor(rnd() * TERRA.length)], 0);
   // out-of-focus foreground tubes at the frame edges
-  tube(nearScene, -9.6, 9, .55, 0xB25F43, 2); tube(nearScene, 8.3, 10, .5, 0x9E5038, 2);
+  tube(nearScene, -9.6, 9, .55, 0x861C21, 2); tube(nearScene, 8.3, 10, .5, 0x7E1A1E, 2);
 }
 function updTubes(t) { for (const tb of TUBES) tb.m.position.x = tb.x0 + Math.sin(t * .05) * 0; }
 function mPhone() {
@@ -403,7 +403,8 @@ const HX = 430, HY = 290;
 function build(iconPts) {
   buildTubes();
   const S = SC;
-  ZICON = mIcon(iconPts); const zg = new THREE.Group(); zg.add(ZICON); fgScene.add(zg); ZICON.userData.grp = zg;
+  ZICON = mIcon(iconPts); ZICON.traverse(o => { if (o.isMesh) o.material = new THREE.MeshPhysicalMaterial({ color: 0xFFF6EE, roughness: .35, emissive: 0xFFE8DA, emissiveIntensity: .35, clearcoat: .3 }); });
+  const zg = new THREE.Group(); zg.add(ZICON); fgScene.add(zg); ZICON.userData.grp = zg;
   addIcon(mQuote(), HX, HY, .9, S[0].voStart - .4, S[1].voEnd + .2, { anim: 'stamp' });
   addIcon(mStore(), HX, HY + 10, .62, S[2].voStart - .3, S[2].voEnd + .2, {});
   addIcon(mBubbles(), HX, HY, .82, S[3].voStart - .3, S[3].voEnd + .2, { anim: 'swing' });
@@ -435,6 +436,7 @@ function upd3D(t) {
   const px = lerp(960, 132, km), py = lerp(520, 96, km);
   zg.position.copy(sp(px, py, lerp(3, 0, km)));
   zg.scale.setScalar(Math.max(.001, lerp(big, small, km)));
+  const wp = sp(px, py, -5.2); WALLGLOW.position.copy(wp); WALLGLOW.intensity = 90 * ki * Math.pow(1 - km, 2) + 8 * km;
   const lt = t - 3.4; const spin = lt > 0 ? Math.PI * 2 * eio(pr((lt % 6) / 6, .7, .25)) : 0;
   zg.rotation.set(.12 + Math.sin(t * .8) * .06 * (1 - km), lerp(-.5 + (1 - eo(pr(t, .25, 1.6))) * Math.PI * 2 + Math.sin(t * .7) * .15, -.25, km) + spin, 0);
 }
@@ -462,7 +464,7 @@ function shoulderMask(img, t) {
   const cx = p[0], top = p[1];
   avx.globalCompositeOperation = 'source-over'; avx.clearRect(0, 0, W, H); avx.drawImage(img, 0, 0, W, H);
   avx.globalCompositeOperation = 'destination-out';
-  const IN = 250, OUT = 390, y0 = top + 560, y1 = top + 700;
+  const IN = 285, OUT = 480, y0 = top + 590, y1 = top + 760;
   for (let y = y0; y < H; y += 8) {
     const v = clamp((y - y0) / (y1 - y0));
     for (const sd of [-1, 1]) {
@@ -474,28 +476,34 @@ function shoulderMask(img, t) {
   }
   // darken what is left of the outer shoulders so they sink into the shadow
   avx.globalCompositeOperation = 'source-atop';
-  for (const sd of [-1, 1]) { const g = avx.createLinearGradient(cx + sd * 140, 0, cx + sd * OUT, 0); g.addColorStop(0, 'rgba(10,6,4,0)'); g.addColorStop(1, 'rgba(10,6,4,.85)');
-    avx.fillStyle = g; avx.fillRect(sd < 0 ? 0 : cx + sd * 140, top + 520, sd < 0 ? cx - 140 : W, H); }
+  for (let y = top + 480; y < H; y += 6) { const v = clamp((y - top - 480) / 220);
+    for (const sd of [-1, 1]) { const g = avx.createLinearGradient(cx + sd * 150, 0, cx + sd * OUT, 0); g.addColorStop(0, 'rgba(20,4,5,0)'); g.addColorStop(1, `rgba(20,4,5,${.85 * v})`);
+      avx.fillStyle = g; avx.fillRect(sd < 0 ? 0 : cx + 150, y, sd < 0 ? cx - 150 : W, 6); } }
   avx.globalCompositeOperation = 'source-over';
 }
 // ---------- 2D ----------
 const GRAIN = [];
 function makeGrain() { for (let k = 0; k < 4; k++) { const c = document.createElement('canvas'); c.width = 480; c.height = 270; const g = c.getContext('2d'), im = g.createImageData(480, 270);
   for (let i = 0; i < im.data.length; i += 4) { const v = 128 + (Math.random() - .5) * 120; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; } g.putImageData(im, 0, 0); GRAIN.push(c); } }
-function drawBase(c, t) { const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#120B09'); g.addColorStop(1, '#1E120E'); c.fillStyle = g; c.fillRect(0, 0, W, H); }
-const XL = 140;
+function drawBase(c, t) { const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#2A0A0C'); g.addColorStop(1, '#1A0607'); c.fillStyle = g; c.fillRect(0, 0, W, H); }
+const XL = 140, HL = '#FFC1B2';
 // a statement: rows [text, color, startTime?]; leaves at t1
 function statement(c, t, rows, t0, t1, o = {}) {
   if (t < t0 - .1 || t > t1 + .6) return;
   let size = o.size || 78; const mw = Math.max(...rows.map(([s]) => tw(c, s, size))); if (mw > (o.maxw || 760)) size *= (o.maxw || 760) / mw;
   const lh = size * 1.1, y0 = (o.y || 690) - (rows.length - 1) * lh / 2;
-  rows.forEach(([s, col, ts], j) => rise(c, s, XL, y0 + j * lh, size, col, t, (ts ?? t0 + j * .1) - .15 + (o.delay ?? .2), { out: t1 - .35, d: .6 }));
+  rows.forEach(([s, col, ts], j) => {
+    const tr = (ts ?? t0 + j * .1) - .15 + (o.delay ?? .2), y = y0 + j * lh, hi = col === HL;
+    if (hi) { const k = eo5(pr(t, tr, .6)), ko = eio(pr(t, t1 - .35, .4)); if (k > 0 && ko < 1) { const w = tw(c, s, size) + 36;
+      c.save(); c.globalAlpha = clamp(k * 1.4) * (1 - ko); rr(c, XL - 18, y - size * .86 + (1 - k) * size * .6 - ko * size * .4, w, size * 1.12, 12); c.fillStyle = '#F7EDE6'; c.shadowColor = 'rgba(0,0,0,.35)'; c.shadowBlur = 20; c.shadowOffsetY = 6; c.fill(); c.restore(); } }
+    c.save(); if (!hi) { c.shadowColor = 'rgba(0,0,0,.55)'; c.shadowBlur = 18; c.shadowOffsetY = 3; }
+    rise(c, s, XL, y, size, hi ? '#7E1A1E' : '#FFFFFF', t, tr, { out: t1 - .35, d: .6 }); c.restore(); });
 }
 function marquee(c, t, text, t0, t1, y, o = {}) {
   const a = clamp(pr(t, t0, .8)) * (1 - pr(t, t1, .6)); if (a <= 0) return;
   const size = o.size || 210; c.save(); c.globalAlpha = a * .9; c.font = font(size, 700); c.letterSpacing = '4px';
   const unit = text + '    ', w = c.measureText(unit).width, off = ((t - t0) * (o.speed || 70)) % w;
-  c.lineWidth = 2.5; c.strokeStyle = 'rgba(240,160,130,.42)'; c.fillStyle = 'rgba(228,121,111,.07)';
+  c.lineWidth = 2.5; c.strokeStyle = 'rgba(255,205,195,.30)'; c.fillStyle = 'rgba(255,190,180,.05)';
   for (let x = -off - w; x < W + w; x += w) { c.fillText(unit, x, y); c.strokeText(unit, x, y); }
   c.restore();
 }
@@ -509,7 +517,7 @@ function backPhrases(c, t) {
   marquee(c, t, 'BORA VENDER  ·  BORA VENDER  ·', S[8].voStart - .3, CUES.duration, Y, { speed: 110 });
 }
 function statements(c, t) {
-  const S = SC, I = C.ink, K = C.coral;
+  const S = SC, I = '#FFFFFF', K = HL;
   statement(c, t, [['Quem recebeu', I], ['um orçamento seu', I], ['e ainda não fechou?', K]], S[0].voStart - .1, S[1].voStart - .1);
   statement(c, t, [['Pensou em alguém?', I], ['Esse vídeo', I, Wd(1, 'entao')], ['é pra você.', K, Wd(1, 'entao') + .1]], Wd(1, 'pensou'), S[1].voEnd + .25);
   statement(c, t, [['Foi à loja.', I, Wd(2, 'loja') - .2], ['Experimentou.', I, Wd(2, 'experimentou')], ['Gostou.', I, Wd(2, 'gostou')]], Wd(2, 'loja') - .2, Wd(2, 'mas') - .2);
@@ -526,8 +534,8 @@ function statements(c, t) {
   statement(c, t, [['Abra sua', I], ['carteira.', K]], Wd(6, 'abre') - .2, Wd(6, 'cinco') - .3, { size: 90 });
   const t5 = Wd(6, 'cinco') - .2;
   if (t > t5 - .1 && t < Wd(6, 'mostra') + .3) { const k = pr(t, t5, .6), ko = eio(pr(t, Wd(6, 'mostra') - .3, .4));
-    c.save(); c.globalAlpha = clamp(k * 2) * (1 - ko); num(c, 5, k, XL - 8, 760, 300, C.coral, { static: true }); c.restore();
-    rise(c, 'clientes.', XL + 200, 700, 72, C.ink, t, t5 + .2, { out: Wd(6, 'mostra') - .3 }); rise(c, 'Retome hoje.', XL + 200, 780, 56, C.slate, t, Wd(6, 'retoma') - .2, { out: Wd(6, 'mostra') - .3 }); }
+    c.save(); c.globalAlpha = clamp(k * 2) * (1 - ko); num(c, 5, k, XL - 8, 760, 300, '#F7EDE6', { static: true }); c.restore();
+    rise(c, 'clientes.', XL + 200, 700, 72, '#FFFFFF', t, t5 + .2, { out: Wd(6, 'mostra') - .3 }); rise(c, 'Retome hoje.', XL + 200, 780, 56, '#F3D9CF', t, Wd(6, 'retoma') - .2, { out: Wd(6, 'mostra') - .3 }); }
   statement(c, t, [['Lembre.', I, Wd(6, 'lembra')], ['Escute.', I, Wd(6, 'escuta')], ['Resolva.', K, Wd(6, 'solucao') - .3]], Wd(6, 'mostra') - .1, S[6].voEnd + .3, { size: 90 });
   statement(c, t, [['Precisou de ajuda?', I], ['Chama!', K, Wd(7, 'chama')]], S[7].voStart - .1, Wd(7, 'vamos') - .3);
   statement(c, t, [['Vamos construir', I], ['essas vendas', I], ['juntos.', K]], Wd(7, 'vamos') - .2, S[7].voEnd + .3);
@@ -538,7 +546,7 @@ function grade(c, t) {
   // floor falloff (cinematic), vignette, warm grade, grain
   let g = c.createLinearGradient(0, 760, 0, H); g.addColorStop(0, 'rgba(12,7,5,0)'); g.addColorStop(1, 'rgba(12,7,5,.62)'); c.fillStyle = g; c.fillRect(0, 760, W, H - 760);
   g = c.createRadialGradient(W * .55, H * .45, H * .35, W * .55, H * .45, H * 1.05); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(6,3,2,.55)'); c.fillStyle = g; c.fillRect(0, 0, W, H);
-  c.save(); c.globalCompositeOperation = 'soft-light'; c.fillStyle = 'rgba(255,170,120,.10)'; c.fillRect(0, 0, W, H); c.restore();
+  c.save(); c.globalCompositeOperation = 'soft-light'; c.fillStyle = 'rgba(255,150,120,.06)'; c.fillRect(0, 0, W, H); c.restore();
   c.save(); c.globalCompositeOperation = 'overlay'; c.globalAlpha = .07; c.drawImage(GRAIN[Math.floor(t * 24) % 4], 0, 0, W, H); c.restore();
 }
 function sweep(c, t) {
@@ -553,19 +561,20 @@ async function composite(c, t) {
   const dolly = Math.sin(t * .09) * .9, cy = Math.cos(t * .11) * .12;
   camera.position.set(dolly, cy, D); camera.lookAt(dolly * .5, cy * .3, 0);
   const tubeIn = eo(pr(t, 0, 1.6));
-  renderer.render(bgScene, camera); c.save(); c.globalAlpha = tubeIn; c.filter = 'blur(2.5px)'; c.drawImage(glc, 0, 0); c.restore();
+  upd3D(t);
+  renderer.render(bgScene, camera); c.save(); c.globalAlpha = tubeIn; c.filter = 'blur(1.2px)'; c.drawImage(glc, 0, 0); c.restore();
   // dim the wall slightly behind the left text column for legibility
-  let g = c.createLinearGradient(0, 0, 900, 0); g.addColorStop(0, 'rgba(14,8,6,.55)'); g.addColorStop(1, 'rgba(14,8,6,0)'); c.fillStyle = g; c.fillRect(0, 0, 900, H);
+  let g = c.createLinearGradient(0, 0, 1080, 0); g.addColorStop(0, 'rgba(18,3,4,.86)'); g.addColorStop(.55, 'rgba(18,3,4,.62)'); g.addColorStop(1, 'rgba(18,3,4,0)'); c.fillStyle = g; c.fillRect(0, 0, 900, H);
   // warm key glow behind the person
-  g = c.createRadialGradient(1330, 470, 0, 1330, 470, 650); g.addColorStop(0, 'rgba(255,170,120,.20)'); g.addColorStop(1, 'rgba(255,170,120,0)'); c.fillStyle = g; c.fillRect(0, 0, W, H);
+  g = c.createRadialGradient(1330, 470, 0, 1330, 470, 650); g.addColorStop(0, 'rgba(255,150,130,.16)'); g.addColorStop(1, 'rgba(255,150,130,0)'); c.fillStyle = g; c.fillRect(0, 0, W, H);
   backPhrases(c, t);
   statements(c, t);
   if (AV.n && t > AV.off) { const img = await avatarFrame(t), z = avZoom(t), ax = 1330, ay = 560, a = eo(pr(t, AV.off + .1, .6));
     shoulderMask(img, t);
     c.save(); c.globalAlpha = a; c.translate(ax, ay); c.scale(z, z); c.translate(-ax, -ay + (1 - a) * 30); c.drawImage(AVC, 0, 0, W, H); c.restore(); }
-  upd3D(t); renderer.render(fgScene, camera); c.drawImage(glc, 0, 0);
+  renderer.render(fgScene, camera); c.drawImage(glc, 0, 0);
   sweep(c, t);
-  { const k = ap(t, 3.0, .6); if (k.a > 0) txt(c, 'BLACK ZISSOU  ·  RETOME SEUS CLIENTES', 192, 104, 20, C.coral, { ls: 6, a: k.a }); }
+  { const k = ap(t, 3.0, .6); if (k.a > 0) txt(c, 'BLACK ZISSOU  ·  RETOME SEUS CLIENTES', 210, 104, 20, 'rgba(255,240,234,.9)', { ls: 6, a: k.a }); }
   const lk = eo(pr(t, Wd(8, 'time') + .2, .8)); if (lk > 0) { const lw = 230, lh = lw * IMG.logo.height / IMG.logo.width; c.save(); c.globalAlpha = lk; c.drawImage(IMG.logoN, XL, 880 + 10 * (1 - lk), lw, lh); c.restore(); }
   renderer.render(nearScene, camera); c.save(); c.filter = 'blur(16px)'; c.globalAlpha = .95; c.drawImage(glc, 0, 0); c.restore();
   grade(c, t);

@@ -2,9 +2,11 @@
 
 **Formato:** 1920×1080, 30 fps, cerca de 1m04s.
 **Estética:** cinematográfica, no estilo keynote da Apple.
-- Parede de tubetes terracota em 3D, como os da loja, levemente desfocada e com travelling lento.
+- Parede de tubetes vermelhos foscos em 3D, encostados uns nos outros como na loja, com travelling lento. O ícone Zissou é branco e iluminado na parede, como na referência enviada.
 - Tubetes desfocados em primeiro plano, nas bordas.
 - Luz quente, vinheta e granulação de filme.
+
+**Texto:** branco com sombra, sobre uma coluna escurecida à esquerda. As palavras de destaque ficam em etiquetas creme com letra vermelho-escura, para ler bem sobre o vermelho.
 
 **Avatar:** HeyGen Avatar 6, gerado a partir de `assets/referencia_verde_h.jpg` (foto 3, recortada, à direita, sobre verde) e falando com a voz clonada do Marcio (ElevenLabs).
 - Os ombros da foto original eram cortados pelo enquadramento da selfie. Eles foram estendidos na referência e, na composição, somem na sombra, como numa luz baixa de cinema.
