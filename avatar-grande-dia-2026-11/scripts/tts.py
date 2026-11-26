@@ -11,7 +11,7 @@ LINES = {
   'l3': ("Hoje é Black Friday. Hoje é dia de fazer história!", HOT),
   'l4': ("Mas, antes de falar sobre vendas, eu quero falar sobre pessoas.", CALM),
   'l5': ("Quero agradecer a todos que fizeram essa campanha se tornar realidade.", CALM),
-  'l6': ("Ao nosso time de tecnologia, de marketing, de produtos, financeiro e de pós-venda, que está fazendo e ainda vai fazer um trabalho incrível para que nossos clientes tenham uma experiência surreal.", WARM),
+  'l6': ("Ao nosso time de tecnologia, de marketing, de produtos, de supply, financeiro e de pós-venda, que está fazendo e ainda vai fazer um trabalho incrível para que nossos clientes tenham uma experiência surreal.", WARM),
   'l7': ("Muito obrigado a cada um de vocês!", WARM),
   'l8': ("E agora, nosso time de vendas...", CALM),
   'l9': ("Que orgulho! Que energia! Que dedicação! Que time espetacular!", HOT),

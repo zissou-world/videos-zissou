@@ -11,14 +11,15 @@ def Wd(si, w, n=1):
             k += 1
             if k == n: return x['t']
     raise SystemExit(f'palavra {w} na cena {si}')
-SC = cues['scenes']; TR = [(SC[i]['voEnd'] + SC[i + 1]['voStart']) / 2 for i in range(len(SC) - 1)]
+SC = cues['scenes']; _o = json.load(open('audio/vo_offset.json'))['segs'][-1]; FINT = _o['tl'] + _o['dur'] - .5; TR = [(SC[i]['voEnd'] + SC[i + 1]['voStart']) / 2 for i in range(len(SC) - 1)]
 SFX = [('reveal', .4, -18), ('whoosh', 2.3, -18)]
 POPS = [(1, 'black', 'pop'), (4, 'tecnologia', 'tick'), (4, 'marketing', 'tick'), (4, 'produtos', 'tick'), (4, 'financeiro', 'tick'), (4, 'posvenda', 'tick'),
         (7, 'orgulho', 'snap'), (7, 'energia', 'snap'), (7, 'dedicacao', 'snap'), (7, 'time', 'pop'), (8, 'conquistamos', 'pop'),
         (9, 'hoje', 'tick'), (9, 'sabado', 'tick'), (9, 'domingo', 'tick'), (9, 'segundafeira', 'tick'),
         (11, 'contato', 'tick'), (11, 'orcamento', 'tick'), (11, 'negociacao', 'tick'), (11, 'oportunidades', 'pop'), (12, 'nao', 'snap'), (15, 'maior', 'pop')]
 SFX += [(k, Wd(si, w) - .05, -21 if k in ('tick', 'type') else (-16 if k == 'click' else -18)) for si, w, k in POPS]
-SFX += [('swell', Wd(16, 'boraaaa') - 1.0, -16), ('cannon', Wd(16, 'boraaaa') - .02, -11), ('horn', Wd(16, 'boraaaa') + .1, -15), ('cheer', Wd(16, 'boraaaa') + .1, -14)]
+SFX += [('swell', Wd(16, 'boraaaa') - 1.0, -16), ('cannon', Wd(16, 'boraaaa') - .02, -11), ('horn', Wd(16, 'boraaaa') + .1, -15), ('cheer', Wd(16, 'boraaaa') + .1, -14),
+        ('cannon', FINT, -11), ('cheer', FINT + .1, -13), ('horn', FINT + .3, -15), ('cannon', FINT + 1.3, -13), ('cannon', FINT + 2.6, -13), ('reveal', FINT + 1.5, -17)]
 DUR = cues['duration']
 inp, fc, mixv = ['-i', 'audio/music_a.mp3'], [], []
 idx = 1

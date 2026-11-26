@@ -449,23 +449,25 @@ function upd3D(t) {
   const zg = ZICON.userData.grp, ki = backO(pr(t, .25, 1.3)), km = eio(pr(t, 2.35, .9));
   const big = 2.3 * ki, small = .34;
   const px = lerp(960, 132, km), py = lerp(520, 96, km);
-  zg.position.copy(sp(px, py, lerp(3, 0, km)));
-  zg.scale.setScalar(Math.max(.001, lerp(big, small, km)));
+  const kf = eio(pr(t, FIN() - .1, 1.0));
+  zg.position.copy(sp(lerp(px, 960, kf), lerp(py, 215, kf), lerp(lerp(3, 0, km), 2, kf)));
+  zg.scale.setScalar(Math.max(.001, lerp(lerp(big, small, km), 1.05 + .08 * Math.sin(t * 6) * kf, kf)));
   const wp = sp(px, py, -5.2); WALLGLOW.position.copy(wp); WALLGLOW.intensity = 90 * ki * Math.pow(1 - km, 2) + 8 * km;
-  const lt = t - 3.4; const spin = lt > 0 ? Math.PI * 2 * eio(pr((lt % 6) / 6, .7, .25)) : 0;
+  const lt = t - 3.4; const spin = (lt > 0 ? Math.PI * 2 * eio(pr((lt % 6) / 6, .7, .25)) : 0) + kf * Math.PI * 2 * eio(pr(t, FIN() - .1, 1.2));
   zg.rotation.set(.12 + Math.sin(t * .8) * .06 * (1 - km), lerp(-.5 + (1 - eo(pr(t, .25, 1.6))) * Math.PI * 2 + Math.sin(t * .7) * .15, -.25, km) + spin, 0);
 }
 // ---------- avatar frames ----------
 const AV = { fps: 25, n: 0, segs: [], dir: '../out/frames/', cache: new Map() };
 function avSeg(t) { for (let k = 0; k < AV.segs.length; k++) { const g = AV.segs[k], last = k === AV.segs.length - 1; if (t >= g.tl - .6 && (last || t <= g.tl + g.dur + .6)) return g; } return null; }
-function avAlpha(t) { const g = avSeg(t); if (!g) return 0; const last = g === AV.segs[AV.segs.length - 1]; return eo(pr(t, g.tl + .05, .5)) * (last ? 1 : 1 - eio(pr(t, g.tl + g.dur - .45, .45))); }
+function avAlpha(t) { const g = avSeg(t); if (!g) return 0; const last = g === AV.segs[AV.segs.length - 1]; return eo(pr(t, g.tl + .05, .5)) * (1 - eio(pr(t, g.tl + g.dur - (last ? .6 : .45), last ? .7 : .45))); }
+const FIN = () => AV.segs.length ? AV.segs[AV.segs.length - 1].tl + AV.segs[AV.segs.length - 1].dur - .5 : 76;
 async function avatarFrame(t) {
   const g = avSeg(t); const i = clamp(Math.round((g.vid + clamp(t - g.tl, 0, g.dur - .04)) * AV.fps), 0, AV.n - 1) + 1;
   if (AV.cache.has(i)) return AV.cache.get(i);
   const img = await loadImg(AV.dir + String(i).padStart(5, '0') + '.webp'); AV.cache.clear(); AV.cache.set(i, img); return img;
 }
 // framing: slow push-ins on the intimate beats (anchor on the face)
-function avZoom(t) { const g = avSeg(t); return 1 + (g ? .04 * pr(t, g.tl, g.dur) + .05 * eio(pr(t, g.tl + g.dur - .3, 2.5)) : 0); }
+function avZoom(t) { const g = avSeg(t); return 1 + (g ? .04 * pr(t, g.tl, g.dur) + .04 * eio(pr(t, g.tl + g.dur - .8, .9)) : 0); }
 // the reference photo had its shoulders extended; let them fall into shadow (low-key light)
 const AVC = document.createElement('canvas'); AVC.width = W; AVC.height = H; const avx = AVC.getContext('2d');
 let TRACK = null;
@@ -526,13 +528,14 @@ function backPhrases(c, t) {
   marquee(c, t, 'ORGULHO  ·  ENERGIA  ·  DEDICAÇÃO  ·', S[6].voStart - .3, S[8].voEnd + .3, Y, { speed: 100 });
   marquee(c, t, 'SEX  ·  SÁB  ·  DOM  ·  SEG  ·', S[9].voStart - .3, S[10].voEnd + .3, Y, { speed: 120 });
   marquee(c, t, 'NENHUMA VENDA PARA TRÁS  ·', S[11].voStart - .3, S[13].voEnd + .3, Y, { speed: 110 });
-  marquee(c, t, 'A MAIOR BLACK DA HISTÓRIA  ·', S[14].voStart - .3, CUES.duration, Y, { speed: 120 });
+  marquee(c, t, 'A MAIOR BLACK DA HISTÓRIA  ·', S[14].voStart - .3, FIN(), Y, { speed: 120 });
 }
 function badge(c, kind, x, y, s) {
   c.save(); c.translate(x, y); c.strokeStyle = '#7E1A1E'; c.fillStyle = '#7E1A1E'; c.lineWidth = s * .09; c.lineCap = 'round'; c.lineJoin = 'round';
   if (kind === 'tec') { txt(c, '</>', 0, s * .17, s * .5, '#7E1A1E', { al: 'center' }); }
   if (kind === 'mkt') { c.beginPath(); c.moveTo(-s * .3, -s * .12); c.lineTo(s * .22, -s * .32); c.lineTo(s * .22, s * .32); c.lineTo(-s * .3, s * .12); c.closePath(); c.fill(); c.fillRect(-s * .38, -s * .12, s * .1, s * .24); }
   if (kind === 'prd') { rr(c, -s * .3, -s * .22, s * .6, s * .5, s * .05); c.stroke(); c.beginPath(); c.moveTo(-s * .3, -s * .05); c.lineTo(s * .3, -s * .05); c.moveTo(0, -s * .22); c.lineTo(0, -s * .05); c.stroke(); }
+  if (kind === 'sup') { c.beginPath(); c.moveTo(-s * .34, -s * .05); c.lineTo(0, -s * .26); c.lineTo(s * .34, -s * .05); c.lineTo(s * .34, s * .3); c.lineTo(-s * .34, s * .3); c.closePath(); c.stroke(); c.beginPath(); c.moveTo(-s * .34, -s * .05); c.lineTo(s * .34, -s * .05); c.moveTo(0, -s * .05); c.lineTo(0, s * .3); c.stroke(); }
   if (kind === 'fin') { txt(c, 'R$', 0, s * .16, s * .44, '#7E1A1E', { al: 'center' }); }
   if (kind === 'pos') { c.beginPath(); c.arc(0, 0, s * .3, 0, Math.PI * 2); c.stroke(); c.beginPath(); c.moveTo(-s * .13, 0); c.lineTo(-s * .03, s * .1); c.lineTo(s * .15, -s * .1); c.stroke(); }
   c.restore();
@@ -572,7 +575,7 @@ function statements(c, t) {
   // 4 · teams
   const T4 = S[4], te = Wd(4, 'que') - .1;
   if (t < T4.voEnd + .6 && t > T4.voStart - .5) txt(c, 'OBRIGADO AO NOSSO TIME DE', 960, 300 - 30 * (1 - eo(pr(t, T4.voStart - .3, .6))), 26, '#F3D9CF', { al: 'center', ls: 8, a: clamp(pr(t, T4.voStart - .3, .6)) * (1 - pr(t, te, .4)) });
-  cards(c, t, [['tec', 'Tecnologia', '', Wd(4, 'tecnologia')], ['mkt', 'Marketing', '', Wd(4, 'marketing')], ['prd', 'Produtos', '', Wd(4, 'produtos')], ['fin', 'Financeiro', '', Wd(4, 'financeiro')], ['pos', 'Pós-venda', '', Wd(4, 'posvenda')]], te + .2, 380, { w: 330, h: 270, s1: 40 });
+  cards(c, t, [['tec', 'Tecnologia', '', Wd(4, 'tecnologia')], ['mkt', 'Marketing', '', Wd(4, 'marketing')], ['prd', 'Produtos', '', Wd(4, 'produtos')], ['sup', 'Supply', '', Wd(4, 'supply')], ['fin', 'Financeiro', '', Wd(4, 'financeiro')], ['pos', 'Pós-venda', '', Wd(4, 'posvenda')]], te + .2, 380, { w: 282, h: 270, gap: 22, s1: 38 });
   statement(c, t, [['Um trabalho incrível', I], ['para uma experiência', I], ['surreal.', K]], te, T4.voEnd + .3, { ...C_, size: 96 });
   // 5 · thank you
   statement(c, t, [['Muito obrigado', I], ['a cada um de vocês!', K]], S[5].voStart - .1, S[5].voEnd + .4, { ...C_, size: 120 });
@@ -609,9 +612,34 @@ function statements(c, t) {
   // 16 · avatar finale (left column)
   statement(c, t, [['Estamos', I], ['juntos?', K]], S[16].voStart - .1, Wd(16, 'boraaaa') - .15, { size: 120 });
   const tb = Wd(16, 'boraaaa') - .15;
-  if (t > tb) { const k = pr(t, tb, .4), shake = Math.sin(t * 50) * 6 * (1 - pr(t, tb + .4, 1.6)), sc = .6 + .4 * backO(k);
-    c.save(); c.translate(XL + shake, 640); c.scale(sc, sc); c.globalAlpha = clamp(k * 2); c.shadowColor = 'rgba(228,121,111,.95)'; c.shadowBlur = 45;
-    txt(c, 'BORAAA', 0, -40, 170, '#FFFFFF', { mw: 820 }); txt(c, 'VENDER!', 0, 130, 170, '#F7EDE6', { mw: 820 }); c.restore(); }
+  if (t > tb && t < FIN() + .5) { const ko = eio(pr(t, FIN() - .2, .5)); c.save(); c.globalAlpha = 1 - ko;
+    popWord(c, 'BORAAA', XL, 600, 170, '#FFFFFF', t, tb, .07, false); popWord(c, 'VENDER!', XL, 780, 170, '#F7EDE6', t, tb + .5, .06, false); c.restore(); }
+  finale(c, t);
+}
+// letters that pop in one by one and keep bouncing
+function popWord(c, word, x, y, size, color, t, t0, st, center) {
+  c.save(); c.font = font(size, 700); const ws = [...word].map(ch => c.measureText(ch).width), tot = ws.reduce((a, b) => a + b, 0);
+  let cx = center ? x - tot / 2 : x;
+  [...word].forEach((ch, i) => { const k = pr(t, t0 + i * st, .45); if (k > 0) { const sc = .2 + .8 * backO(k), bob = Math.sin(t * 9 - i * .7) * 10 * clamp(t - t0 - 1);
+    c.save(); c.translate(cx + ws[i] / 2, y + bob); c.scale(sc, sc); c.rotate((1 - eo(k)) * (i % 2 ? .4 : -.4)); c.globalAlpha *= clamp(k * 2);
+    c.shadowColor = 'rgba(228,121,111,.95)'; c.shadowBlur = 40; txt(c, ch, 0, size * .35, size, color, { al: 'center' }); c.restore(); }
+    cx += ws[i]; });
+  c.restore();
+}
+function finale(c, t) {
+  const f = FIN(); if (t < f - .2) return;
+  const k = eo(pr(t, f - .2, .8));
+  // rotating light rays behind
+  c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha = .55 * k; c.translate(960, 560); c.rotate(t * .25);
+  for (let i = 0; i < 16; i++) { const a0 = i * Math.PI / 8; const g = c.createRadialGradient(0, 0, 40, 0, 0, 1300); g.addColorStop(0, i % 2 ? 'rgba(255,214,190,.35)' : 'rgba(228,121,111,.35)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    c.fillStyle = g; c.beginPath(); c.moveTo(0, 0); c.arc(0, 0, 1300, a0, a0 + .12); c.closePath(); c.fill(); }
+  c.restore();
+  const pulse = 1 + .035 * Math.sin(t * 7.5);
+  c.save(); c.translate(960, 640); c.scale(pulse, pulse); c.translate(-960, -640);
+  popWord(c, 'BORAAA', 960, 560, 230, '#FFFFFF', t, f - .05, .07, true);
+  popWord(c, 'VENDER!', 960, 790, 230, '#F7EDE6', t, f + .35, .06, true);
+  c.restore();
+  const lk = eo(pr(t, f + 1.5, .8)); if (lk > 0) { const lw = 240, lh = lw * IMG.logo.height / IMG.logo.width; c.save(); c.globalAlpha = lk; c.drawImage(IMG.logoN, 960 - lw / 2, 955 + 10 * (1 - lk), lw, lh); c.restore(); }
 }
 function confetti(c, t, t0, n, seed, fromX) {
   if (t < t0) return;
@@ -655,8 +683,9 @@ async function composite(c, t) {
     c.save(); c.globalAlpha = a; c.translate(ax, ay); c.scale(z, z); c.translate(-ax, -ay + (1 - a) * 30); c.drawImage(AVC, 0, 0, W, H); c.restore(); }
   renderer.render(fgScene, camera); c.drawImage(glc, 0, 0);
   sweep(c, t);
-  { const tb = Wd(16, 'boraaaa'); confetti(c, t, tb, 110, 3, -40); confetti(c, t, tb + .05, 110, 9, W + 40); }
-  const lk = eo(pr(t, SC[16].voEnd + .3, .8)); if (lk > 0) { const lw = 230, lh = lw * IMG.logo.height / IMG.logo.width; c.save(); c.globalAlpha = lk; c.drawImage(IMG.logoN, XL, 900 + 10 * (1 - lk), lw, lh); c.restore(); }
+  { const tb = Wd(16, 'boraaaa'), f = FIN(); confetti(c, t, tb, 110, 3, -40); confetti(c, t, tb + .05, 110, 9, W + 40);
+    [0, 1.3, 2.6].forEach((d, j) => { confetti(c, t, f + d, 120, 21 + j * 7, -40); confetti(c, t, f + d + .06, 120, 24 + j * 7, W + 40); }); }
+  const lk = 0; if (lk > 0) { const lw = 230, lh = lw * IMG.logo.height / IMG.logo.width; c.save(); c.globalAlpha = lk; c.drawImage(IMG.logoN, XL, 900 + 10 * (1 - lk), lw, lh); c.restore(); }
   renderer.render(nearScene, camera); c.save(); c.filter = 'blur(16px)'; c.globalAlpha = .95; c.drawImage(glc, 0, 0); c.restore();
   grade(c, t);
   const fi = 1 - eo(pr(t, 0, .6)), fo = eio(pr(t, CUES.duration - .6, .6));

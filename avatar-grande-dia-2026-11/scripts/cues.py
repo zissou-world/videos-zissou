@@ -1,7 +1,7 @@
 """Coloca as falas em sequência por cena e gera cues.json (segmentos, palavras, limites das cenas)."""
 import json
 SCENES = [['a1'], ['l3'], ['l4'], ['l5'], ['l6'], ['l7'], ['l8'], ['l9'], ['l10'], ['l11'], ['l12'], ['l13'], ['l14'], ['l15'], ['l16'], ['l17'], ['a2s']]
-START, GAP_IN, GAP_SCENE, TAIL = 3.4, .4, .6, 3.2
+START, GAP_IN, GAP_SCENE, TAIL = 3.4, .4, .6, 5.0
 def words_of(k):
     a = json.load(open(f'audio/vo/{k}.json'))
     ch, st, en = a['characters'], a['character_start_times_seconds'], a['character_end_times_seconds']
