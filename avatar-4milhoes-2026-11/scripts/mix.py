@@ -15,7 +15,7 @@ SC = cues['scenes']; TR = [(SC[i]['voEnd'] + SC[i + 1]['voStart']) / 2 for i in 
 SFX = [('whoosh', .1, -18)]
 POPS = []
 SFX += [(k, Wd(si, w) - .05, -21 if k in ('tick', 'type') else (-16 if k == 'click' else -18)) for si, w, k in POPS]
-SFX += [('cannon', Wd(0, 'milhoes') - .02, -10), ('cheer', Wd(0, 'milhoes') + .05, -15), ('horn', Wd(1, 'cura') - .1, -14), ('cannon', Wd(1, 'cura') - .02, -10), ('cheer', Wd(1, 'cura') + .2, -14)]
+SFX += [('cannon', Wd(0, 'milhoes') - .02, -10), ('cheer', Wd(0, 'milhoes') + .05, -15), ('horn', Wd(1, 'cura') - .1, -8), ('cannon', Wd(1, 'cura') - .02, -10), ('cheer', Wd(1, 'cura') + .2, -14)]
 DUR = cues['duration']
 inp, fc, mixv = ['-i', 'audio/music_a.mp3'], [], []
 idx = 1

@@ -18,8 +18,8 @@ POPS = [(1, 'black', 'pop'), (4, 'tecnologia', 'tick'), (4, 'marketing', 'tick')
         (9, 'hoje', 'tick'), (9, 'sabado', 'tick'), (9, 'domingo', 'tick'), (9, 'segundafeira', 'tick'),
         (11, 'contato', 'tick'), (11, 'orcamento', 'tick'), (11, 'negociacao', 'tick'), (11, 'oportunidades', 'pop'), (12, 'nao', 'snap'), (15, 'maior', 'pop')]
 SFX += [(k, Wd(si, w) - .05, -21 if k in ('tick', 'type') else (-16 if k == 'click' else -18)) for si, w, k in POPS]
-SFX += [('swell', Wd(16, 'boraaaa') - 1.0, -16), ('cannon', Wd(16, 'boraaaa') - .02, -11), ('horn', Wd(16, 'boraaaa') + .1, -15), ('cheer', Wd(16, 'boraaaa') + .1, -14),
-        ('cannon', FINT, -11), ('cheer', FINT + .1, -13), ('horn', FINT + .3, -15), ('cannon', FINT + 1.3, -13), ('cannon', FINT + 2.6, -13), ('reveal', FINT + 1.5, -17)]
+SFX += [('swell', Wd(16, 'boraaaa') - 1.0, -16), ('cannon', Wd(16, 'boraaaa') - .02, -11), ('horn', Wd(16, 'boraaaa') + .05, -8), ('cheer', Wd(16, 'boraaaa') + .1, -14),
+        ('cannon', FINT, -11), ('cheer', FINT + .1, -13), ('cannon', FINT + 1.3, -13), ('cannon', FINT + 2.6, -13), ('reveal', FINT + 1.5, -17)]
 DUR = cues['duration']
 inp, fc, mixv = ['-i', 'audio/music_a.mp3'], [], []
 idx = 1
