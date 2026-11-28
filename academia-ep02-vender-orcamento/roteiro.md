@@ -1,6 +1,6 @@
 # Zissou World Academy · Portal do Vendedor — EP. 02 · Vender: orçamento e visita
 
-**Duração:** 3m15s · 1920×1080 · 30 fps · legendas em `ep02-vender-orcamento.srt`
+**Duração:** 3m19s · 1920×1080 · 30 fps · legendas em `ep02-vender-orcamento.srt`
 **Objetivo:** criar um orçamento completo, do cliente às condições de pagamento, enviar o link e registrar a visita.
 **Fonte:** PDF "Vídeo 2 de 5 — Vender: orçamento e visita" (14 cenas, 5 capítulos e um checklist). As telas são as do PDF, em resolução original, e usam a loja de demonstração com clientes fictícios.
 
@@ -20,24 +20,24 @@
 ## Capítulos (para a descrição do vídeo)
 ```
 0:00 Abertura
-0:29 Capítulo 01 · Abrir o orçamento
-0:53 Capítulo 02 · Produtos
+0:30 Capítulo 01 · Abrir o orçamento
+0:54 Capítulo 02 · Produtos
 1:17 Capítulo 03 · Condições e alçada
-2:15 Capítulo 04 · Enviar
-2:29 Capítulo 05 · Registrar a visita
-2:53 Resumo e checklist
-3:05 Próximo episódio
+2:17 Capítulo 04 · Enviar
+2:32 Capítulo 05 · Registrar a visita
+2:57 Resumo e checklist
+3:08 Próximo episódio
 ```
 
 | # | Cena | Visual | Locução |
 |---|---|---|---|
 | 0 | **Vinheta** | Tomada cinematográfica (Higgsfield) que termina no ícone 3D. Depois o selo "ZISSOU WORLD ACADEMY · Episódio 02 · Vender". | Trilha e efeitos. |
-| 1 | **Gancho** | Vendedor e cliente de costas, olhando o tablet. Depois o tablet real com o orçamento preenchido, com destaques "Total", "No cartão" e "No PIX" e o selo "Orçamento em menos de 2 minutos". | "Total, cartão e PIX, prontos para o cliente. Em poucos minutos, você vai montar um orçamento assim em menos de dois, com o cliente do seu lado." |
-| 2 | **Abertura** | Tela do orçamento, com o texto "Seu orçamento em minutos". | "O orçamento é onde a venda começa a acontecer. Vamos montar um juntos, do jeito que você faz na loja todos os dias." |
-| 3 | **Cap. 01 · Botão +** | Zoom no botão + e em "Novo Orçamento". | "Toque no botão mais e escolha Novo Orçamento. Também dá para criar direto de dentro de uma conversa do WhatsApp, sem sair dela." |
+| 1 | **Gancho** | Vendedor e cliente de costas, olhando o tablet. Depois o tablet real com o orçamento preenchido, com o selo "Pronto em menos de 2 minutos" e os destaques "Produtos", "Total", "No cartão", "No PIX" e "Link para pagar". | "Imagine o cliente do seu lado. Em menos de dois minutos, ele já tem tudo: os produtos, o total no cartão e no Pix, e o link de pagamento." |
+| 2 | **Abertura** | Tela do orçamento, com o texto "Seu orçamento em minutos". | "É aqui que a venda começa a acontecer. Vamos montar um orçamento juntos, do jeito que você faz na loja todos os dias." |
+| 3 | **Cap. 01 · Botão +** | Zoom no botão + e em "Novo Orçamento". | "Toque no botão mais e escolha Novo Orçamento. Você também pode começar direto de uma conversa do WhatsApp, sem sair dela." |
 | 4 | **Escolher o cliente** | Leads recentes (toque em Marina), busca e "Cadastrar novo cliente". | "Primeiro, o cliente. Se ele já passou pela loja nos últimos noventa dias, aparece aqui em Leads recentes…" |
 | 5 | **Cap. 02 · Produtos** | O vendedor digita "Coral", toca no resultado e o produto entra no orçamento. Ritual completo: colchão, travesseiro, lençol e protetor. | "Agora, os produtos. Digite o nome ou o código do produto…" |
-| 6 | **Arquiteto(a)** | "Adicionar arquiteto(a)" é tocado e a indicação fica registrada. | "Venda indicada por arquiteto ou arquiteta?…" |
+| 6 | **Arquiteto(a)** | "Adicionar arquiteto(a)" é tocado e a indicação fica registrada. | "Foi uma indicação de arquiteto ou arquiteta?…" |
 | 7 | **Cap. 03 · Desconto de urgência** | O botão do Desconto de urgência é ligado. | "O Desconto de urgência cria um cupom que vale por poucas horas…" |
 | 8 | **Condições comerciais** | Canal (cliente na loja), aviso "não registra visita", frete, prazo, validade e entrega futura. | "Em Condições comerciais, você marca por onde atendeu…" |
 | 9 | **Cartão e PIX** | Destaque no total, no cartão e no PIX. | "Lá embaixo está o total, com o valor no cartão e no PIX…" |
@@ -50,7 +50,7 @@
 | 16 | **Próximo episódio** | Cena real: o vendedor se despede da cliente. Cartão "Próximo episódio · 03 · Acompanhar e atender" e assinatura da Academy. | "No próximo vídeo, vamos acompanhar esses orçamentos até virar venda. Até lá!" |
 
 ## Locução e som
-- Voz clonada do Marcio (ElevenLabs). Grafias usadas para a pronúncia: "píquis" (PIX), "uótsap" (WhatsApp), "Lídis" (leads), "tíquete", "pê dê éfe" (PDF), "fólou âps" (follow-ups), "Ziçu". Cada fala foi conferida com transcrição automática. As legendas usam a grafia real.
+- Voz clonada do Marcio (ElevenLabs), em ritmo um pouco mais calmo (velocidade 1,0). Palavras em inglês e siglas na grafia original (WhatsApp, Pix, leads, PDF, follow-ups), que a voz pronuncia como se fala no Brasil; só "Ziçu" segue grafado. As frases foram escritas para evitar a contração "pra". Cada fala foi conferida com transcrição automática, assim como a mixagem final.
 - Trilha original da série. Efeitos de clique e pop acompanham as ações. Loudness final de −14 LUFS.
 
 ## Como gerar de novo
