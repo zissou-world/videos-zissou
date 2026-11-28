@@ -621,9 +621,10 @@ function chapterCard(c, t, n, title, t0, dur = 3.2) {
 const SW = {};   // sampled screen colours
 function cover(cc, x, y, w, h, col) { cc.fillStyle = col; cc.fillRect(x, y, w, h); }
 // orçamento with one product added and totals filled (screen coordinates, 1440x900)
-function fillQuote(cc, k = 1) {
+function fillQuote(cc, k = 1, dy = 0) {
   if (k <= 0) return;
   cc.save(); cc.globalAlpha *= clamp(k * 2);
+  cc.save(); cc.translate(0, dy);
   cover(cc, 284, 272, 710, 94, SW.page);
   rr(cc, 285, 273, 707, 92, 12); cc.fillStyle = '#fff'; cc.fill(); cc.lineWidth = 1.5; cc.strokeStyle = '#E3E6EA'; cc.stroke();
   rr(cc, 300, 297, 44, 44, 10); cc.fillStyle = '#F2F3F5'; cc.fill();
@@ -631,6 +632,7 @@ function fillQuote(cc, k = 1) {
   txt(cc, 'Travesseiro Zissou Cloud', 360, 314, 17, '#141B26', { w: 600 }); txt(cc, 'Padrão · T120', 360, 338, 14, '#6B7280', { w: 600 });
   rr(cc, 720, 302, 110, 36, 10); cc.lineWidth = 1.5; cc.strokeStyle = '#E3E6EA'; cc.stroke(); txt(cc, '–      1      +', 775, 326, 16, '#141B26', { al: 'center', w: 600 });
   txt(cc, 'R$ 590,00', 975, 327, 19, '#141B26', { al: 'right' });
+  cc.restore();
   cover(cc, 276, 826, 166, 36, SW.foot); txt(cc, 'R$ 590,00', 277, 852, 24, '#141B26');
   cover(cc, 676, 790, 74, 24, SW.card); txt(cc, 'R$ 590,00', 746, 808, 15, '#141B26', { al: 'right' });
   cover(cc, 976, 790, 78, 24, SW.pix); txt(cc, 'R$ 548,70', 1050, 808, 15, '#1F8A57', { al: 'right' });
@@ -747,12 +749,12 @@ async function composite(c, t) {
     // 3 · escolher o cliente
     if (t > S[3].voStart - .8 && t < tCh[1]) {
       head(c, t, 'CAPÍTULO 01', 'Primeiro,', 'o cliente.', S[3].voStart - .3, S[3].voEnd + .4);
-      bullet(c, t, 'Lead recente (90 dias)', 'é só tocar no nome', 600, Wd(3, 'lidis') - .2, S[3].voEnd + .4, { n: '1' });
+      bullet(c, t, 'Lead recente (90 dias)', 'é só tocar no nome', 600, Wd(3, 'leads') - .2, S[3].voEnd + .4, { n: '1' });
       bullet(c, t, 'Busque o cliente', 'nome, telefone ou e-mail', 690, Wd(3, 'busque') - .2, S[3].voEnd + .4, { n: '2' });
       bullet(c, t, 'Ou cadastre um novo', null, 780, Wd(3, 'cadastrar') - .2, S[3].voEnd + .4, { n: '3' });
       tag(c, t, 'Lead recente ou cliente novo', Wd(3, 'primeiro') + .3, S[3].voEnd + .4, { y: 880 });
       const map = tabletShot(c, IMG.cliente, t, [[S[3].voStart - .6, 720, 450, 1], [S[3].voStart + .5, 720, 520, 1.3], [Wd(3, 'busque') - .4, 720, 200, 1.75], [Wd(3, 'cadastrar') - .3, 720, 215, 1.75]]);
-      const [mx, my] = map(512, 328); ring(c, mx, my, 40, t, Wd(3, 'lidis'));
+      const [mx, my] = map(512, 328); ring(c, mx, my, 40, t, Wd(3, 'leads'));
       let a = map(481, 298), b = map(959, 360); boxHi(c, a[0], a[1], b[0], b[1], t, Wd(3, 'tocar') - .2, Wd(3, 'busque') - .4);
       a = map(488, 150); b = map(952, 197); boxHi(c, a[0], a[1], b[0], b[1], t, Wd(3, 'busque') - .1, Wd(3, 'cadastrar') - .3);
       a = map(489, 206); b = map(951, 249); boxHi(c, a[0], a[1], b[0], b[1], t, Wd(3, 'cadastrar') - .1);
@@ -801,7 +803,7 @@ async function composite(c, t) {
       tag(c, t, 'Canal, frete, prazo e validade', Wd(7, 'condicoes') - .2, S[7].voEnd + .4, { y: 880 });
       const kCk = pr(t, Wd(7, 'futura') + .3, .4);
       const map = tabletShot(c, IMG.condicoes, t, [[S[7].voStart - .6, 1215, 330, 1.25], [S[7].voStart + .4, 1215, 290, 1.7], [Wd(7, 'frete') - .4, 1215, 420, 1.7], [Wd(7, 'futura') - .7, 1215, 470, 1.7]],
-        { draw: withScreen(cc => { if (kCk > 0) { rr(cc, 1050, 490, 16, 16, 4); cc.fillStyle = C.navy; cc.fill(); cc.strokeStyle = '#fff'; cc.lineWidth = 2.5; cc.beginPath(); cc.moveTo(1053, 498); cc.lineTo(1057, 502); cc.lineTo(1063, 494); cc.stroke(); } }) });
+        { draw: withScreen(cc => { fillQuote(cc, 1, -104); if (kCk > 0) { rr(cc, 1050, 490, 16, 16, 4); cc.fillStyle = C.navy; cc.fill(); cc.strokeStyle = '#fff'; cc.lineWidth = 2.5; cc.beginPath(); cc.moveTo(1053, 498); cc.lineTo(1057, 502); cc.lineTo(1063, 494); cc.stroke(); } }) });
       const [lx, ly] = map(1078, 280); ring(c, lx, ly, 46, t, Wd(7, 'cliente') - .1);
       let a = map(1035, 308), b = map(1397, 352); boxHi(c, a[0], a[1], b[0], b[1], t, Wd(7, 'isso') - .2, Wd(7, 'frete') - .5);
       [['frete', 1092], ['prazo', 1215], ['validade', 1339]].forEach(([w, x]) => { const [fx, fy] = map(x, 415); ring(c, fx, fy, 50, t, Wd(7, w) - .1); });
@@ -815,7 +817,7 @@ async function composite(c, t) {
       bullet(c, t, 'O cliente vê', 'os mesmos valores no link', 770, Wd(8, 'link') - .4, S[8].voEnd + .4, { n: '3' });
       tag(c, t, 'Cartão e PIX lado a lado', Wd(8, 'cartao') - .2, S[8].voEnd + .4, { y: 880 });
       const map = tabletShot(c, IMG.orc, t, [[S[8].voStart - .6, 760, 700, 1.15], [S[8].voStart + .3, 700, 835, 1.6]], { draw: withScreen(cc => fillQuote(cc)) });
-      [['total', 270, 800, 445, 862], ['cartao', 462, 782, 757, 887], ['piquis', 767, 782, 1062, 887]].forEach(([w, x0, y0, x1, y1]) => { const a = map(x0, y0), b = map(x1, y1); boxHi(c, a[0], a[1], b[0], b[1], t, Wd(8, w) - .15); });
+      [['total', 270, 800, 445, 862], ['cartao', 462, 782, 757, 887], ['pix', 767, 782, 1062, 887]].forEach(([w, x0, y0, x1, y1]) => { const a = map(x0, y0), b = map(x1, y1); boxHi(c, a[0], a[1], b[0], b[1], t, Wd(8, w) - .15); });
     }
     // 9 · regra da alçada
     if (t > S[9].voStart - .8 && t < S[10].voStart) {
@@ -830,10 +832,10 @@ async function composite(c, t) {
       head(c, t, 'CAPÍTULO 03', 'Observações', 'para o cliente.', S[10].voStart - .3, S[10].voEnd + .4);
       bullet(c, t, 'Combinado de entrega', null, 600, Wd(10, 'combinado') - .2, S[10].voEnd + .4, { n: '1' });
       bullet(c, t, 'Detalhe do produto', null, 680, Wd(10, 'detalhe') - .2, S[10].voEnd + .4, { n: '2' });
-      bullet(c, t, 'Aparece no PDF e no link', null, 760, Wd(10, 'pe') - .3, S[10].voEnd + .4, { icon: 'doc' });
-      tag(c, t, 'Aparece para o cliente', Wd(10, 'pe') - .2, S[10].voEnd + .4, { y: 880 });
+      bullet(c, t, 'Aparece no PDF e no link', null, 760, Wd(10, 'pdf') - .3, S[10].voEnd + .4, { icon: 'doc' });
+      tag(c, t, 'Aparece para o cliente', Wd(10, 'pdf') - .2, S[10].voEnd + .4, { y: 880 });
       const map = tabletShot(c, IMG.condicoes, t, [[S[10].voStart - .6, 1215, 560, 1.3], [S[10].voStart + .2, 1215, 660, 1.8]],
-        { draw: withScreen(cc => typed(cc, 'Entrega no sábado, de manhã.', pr(t, Wd(10, 'combinado') - .2, 2.0), 1050, 660, 15, [1040, 637, 352, 66])) });
+        { draw: withScreen(cc => fillQuote(cc, 1, -104) || typed(cc, 'Entrega no sábado, de manhã.', pr(t, Wd(10, 'combinado') - .2, 2.0), 1050, 660, 15, [1040, 637, 352, 66])) });
       const a = map(1017, 565), b = map(1415, 732); boxHi(c, a[0], a[1], b[0], b[1], t, Wd(10, 'observacoes') - .1);
     }
     // 11 · salvar e enviar
@@ -890,7 +892,7 @@ async function composite(c, t) {
     if (inBroll) { await drawBroll(c, 'abertura', t, tB0, { speed: .8, dur: 6 });
       const k = ap(t, tB0 + .9, .7); if (k.a > 0) { c.save(); c.globalAlpha *= k.a * (1 - pr(t, tTab0 - .4, .4)); txt(c, 'EPISÓDIO 02', 140, 830, 22, C.coral, { ls: 8 }); txt(c, 'Vender', 136, 910, 76, '#FFFFFF'); c.restore(); } }
     if (inTab) { await drawBroll(c, 'tablet_orc', t, tTab0, { letterbox: .6, dur: 10 }); const a0 = 1 - clamp(pr(t, tTab0, .35)); if (a0 > 0) { c.save(); c.globalAlpha *= a0; await drawBroll(c, 'abertura', t, tB0, { speed: .8 }); c.restore(); }
-      [['Produtos', 'produtos'], ['Total', 'total'], ['No cartão', 'cartao'], ['No PIX', 'piquis'], ['Link para pagar', 'link']].forEach(([s, w], i) => pill(c, s, 140, 230 + i * 86, 28, i === 3 ? '#1F8A57' : i === 4 ? C.coral : 'rgba(20,27,38,.82)', '#fff', pr(t, Wd(0, w) - .15, .5), { shadow: true }));
+      [['Produtos', 'produtos'], ['Total', 'total'], ['No cartão', 'cartao'], ['No PIX', 'pix'], ['Link para pagar', 'link']].forEach(([s, w], i) => pill(c, s, 140, 230 + i * 86, 28, i === 3 ? '#1F8A57' : i === 4 ? C.coral : 'rgba(20,27,38,.82)', '#fff', pr(t, Wd(0, w) - .15, .5), { shadow: true }));
       tag(c, t, 'Pronto em menos de 2 minutos', Wd(0, 'menos') - .3, tStage0 + .4, { y: 860, bg: C.ink, size: 32 }); }
     c.restore();
   }
@@ -900,11 +902,11 @@ async function composite(c, t) {
   if (inClose) {
     await drawBroll(c, 'fechamento', t, tClose, { speed: .75, dur: 8 });
     const k = ap(t, tClose + .6, .7); if (k.a > 0) { c.save(); c.globalAlpha = k.a; txt(c, 'PRÓXIMO EPISÓDIO', 140, 760, 22, C.coral, { ls: 8 }); txt(c, '03 · Acompanhar e atender', 136, 850, 72, '#FFFFFF'); txt(c, 'Acompanhar os orçamentos até virar venda', 140, 905, 28, 'rgba(255,255,255,.85)', { w: 600 }); c.restore(); }
-    const te = D_ - 3.0; if (t > te) { const ke = eo(pr(t, te, .8)); c.save(); c.globalAlpha = ke; const g = c.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#0E131C'); g.addColorStop(1, '#1D2A40'); c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore();
+    const te = D_ - 5.4; if (t > te) { const ke = eo(pr(t, te, .8)); c.save(); c.globalAlpha = ke; const g = c.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#0E131C'); g.addColorStop(1, '#1D2A40'); c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore();
       renderer.render(scene, camera); c.save(); c.globalAlpha = ke; c.drawImage(glc, 0, 0); c.restore();
-      txt(c, 'ZISSOU WORLD ACADEMY', 960, 700, 54, '#FFFFFF', { al: 'center', ls: 12, a: ke }); txt(c, 'PORTAL DO VENDEDOR', 960, 760, 22, 'rgba(255,255,255,.75)', { al: 'center', ls: 10, a: ke }); }
+      txt(c, 'ZISSOU WORLD ACADEMY', 960, 700, 54, '#FFFFFF', { al: 'center', ls: 12, a: ke }); txt(c, 'PORTAL DO VENDEDOR', 960, 760, 22, 'rgba(255,255,255,.75)', { al: 'center', ls: 10, a: ke }); rise(c, 'Até o próximo episódio!', 960, 860, 34, C.coral, t, te + 1.0, { al: 'center' }); }
   }
-  const fi = 1 - eo(pr(t, 0, .6)), fo = eio(pr(t, D_ - .6, .6)); if (fi > 0 || fo > 0) { c.fillStyle = `rgba(10,14,20,${Math.max(fi, fo)})`; c.fillRect(0, 0, W, H); }
+  const fi = 1 - eo(pr(t, 0, .6)), fo = eio(pr(t, D_ - 1.1, 1.1)); if (fi > 0 || fo > 0) { c.fillStyle = `rgba(10,14,20,${Math.max(fi, fo)})`; c.fillRect(0, 0, W, H); }
 }
 async function renderAt(t) { camera.position.set(0, 0, D); camera.lookAt(0, 0, 0); await composite(ctx, t); return 1; }
 window.makeCheio = () => { const c = document.createElement('canvas'); c.width = IMG.orc.width; c.height = IMG.orc.height; const g = c.getContext('2d'); g.drawImage(IMG.orc, 0, 0); fillQuote(g); return c.toDataURL('image/png'); };
@@ -924,7 +926,7 @@ window.ready = (async () => {
   const shape = await (await fetch('../assets/icon_shape.json')).json();
   const S = SC, tCh = TCH();
   addIcon(whiteIcon(shape.pts), 960, 400, 2.1, .3, 5.6, { anim: 'spin', z: 3, ry: -.3 });
-  addIcon(whiteIcon(shape.pts), 960, 470, 1.5, CUES.duration - 3.0, CUES.duration + 2, { anim: 'spin', z: 3, ry: -.3 });
+  addIcon(whiteIcon(shape.pts), 960, 470, 1.5, CUES.duration - 5.4, CUES.duration + 2, { anim: 'spin', z: 3, ry: -.3 });
   const chapIcons = [mQuote(), mPillow(), mTag(), mPlane(), mStore()];
   chapIcons.forEach((m, i) => addIcon(m, 1480, 560, [1.25, 1.3, 1.3, 1.35, 1.1][i], tCh[i] + .25, tCh[i] + 2.6, { anim: i === 0 ? 'spin' : 'swing', z: 3, ry: -.4 }));
   const HX = 830, HY = 850, nxt = i => [2, 4, 6, 11, 12].includes(i + 1) ? tCh[[2, 4, 6, 11, 12].indexOf(i + 1)] - .7 : S[i + 1].voStart - .9;

@@ -5,7 +5,7 @@ CALM = dict(stability=.62, similarity_boost=.72, style=.15, speed=1.03, use_spea
 WARM = dict(stability=.6, similarity_boost=.72, style=.18, speed=1.04, use_speaker_boost=True)
 HOT = dict(stability=.55, similarity_boost=.72, style=.25, speed=1.05, use_speaker_boost=True)
 LINES = {
-  'l1': ('Bom dia! Este é o seu Ziçu World. Antes do primeiro cliente entrar na loja, ele já te conta quanto você vendeu, quanto falta para a meta e quem está esperando o seu retorno. Em poucos minutos, você vai dominar o começo do dia.', HOT),
+  'l1': ('Bom dia! Este é o seu Ziçu World. Antes do primeiro cliente entrar na loja, ele já te conta quanto você vendeu, quanto falta até a meta e quem está esperando o seu retorno. Em poucos minutos, você vai dominar o começo do dia.', HOT),
   'l2': ('Entre com o seu CPF e a sua senha. Logo na primeira tela do dia, escolha a loja onde você está hoje.', WARM),
   'l3': ('Orçamentos e visitas ficam registrados nessa loja. O seu ranking e a sua comissão continuam na sua loja base, então pode escolher sem medo.', WARM),
   'l4': ('Quando aparecer este aviso, toque em Ativar notificações. É assim que você fica sabendo na hora de um cliente novo na fila, de um orçamento vencendo e de um aviso da coordenação.', WARM),

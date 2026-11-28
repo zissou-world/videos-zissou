@@ -2,7 +2,7 @@
 import json
 SCENES = [['l' + str(i)] for i in range(1, 17)]
 PRE = {1: .4, 2: 3.2, 4: 3.2, 6: 3.2, 11: 3.2, 12: 3.2, 14: 1.6, 15: 1.4}   # extra room for chapter cards / checklist / closing
-START, GAP_IN, GAP_SCENE, TAIL = 10.0, .5, 1.1, 4.5
+START, GAP_IN, GAP_SCENE, TAIL = 10.0, .5, 1.1, 7.0
 def words_of(k):
     a = json.load(open(f'audio/vo/{k}.json'))
     ch, st, en = a['characters'], a['character_start_times_seconds'], a['character_end_times_seconds']

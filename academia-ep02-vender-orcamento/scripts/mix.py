@@ -15,12 +15,12 @@ def Wd(si, w, n=1):
 SC = cues['scenes']; TR = [(SC[i]['voEnd'] + SC[i + 1]['voStart']) / 2 for i in range(len(SC) - 1)]
 CH = (2, 4, 6, 11, 12)
 SFX = [('reveal', 1.4, -16), ('whoosh', 5.6, -16)] + [('whoosh', SC[i]['voStart'] - 3.6, -17) for i in CH] + [('reveal', SC[i]['voStart'] - 3.2, -21) for i in CH]
-POPS = [(0, 'produtos', 'pop'), (0, 'total', 'pop'), (0, 'cartao', 'pop'), (0, 'piquis', 'pop'), (0, 'link', 'pop'), (2, 'mais', 'click'), (2, 'novo', 'tick'), (3, 'tocar', 'click'), (3, 'cadastrar', 'tick'),
+POPS = [(0, 'produtos', 'pop'), (0, 'total', 'pop'), (0, 'cartao', 'pop'), (0, 'pix', 'pop'), (0, 'link', 'pop'), (2, 'mais', 'click'), (2, 'novo', 'tick'), (3, 'tocar', 'click'), (3, 'cadastrar', 'tick'),
         (4, 'item', 'click'), (4, 'colchao', 'tick'), (4, 'travesseiro', 'tick'), (4, 'lencol', 'tick'), (4, 'protetor', 'tick'), (5, 'registre', 'click'), (6, 'decidido', 'click'),
-        (7, 'cliente', 'tick'), (7, 'futura', 'click'), (8, 'cartao', 'pop'), (8, 'piquis', 'pop'), (9, 'pedir', 'pop'), (9, 'atalho', 'snap'), (11, 'enviar', 'click'), (11, 'link', 'reveal'),
+        (7, 'cliente', 'tick'), (7, 'futura', 'click'), (8, 'cartao', 'pop'), (8, 'pix', 'pop'), (9, 'pedir', 'pop'), (9, 'atalho', 'snap'), (11, 'enviar', 'click'), (11, 'link', 'reveal'),
         (12, 'gera', 'click'), (13, 'filtros', 'click'), (14, 'cliente', 'tick'), (14, 'produtos', 'tick'), (14, 'condicoes', 'tick'), (14, 'enviar', 'tick'), (14, 'registrar', 'tick')]
 SFX += [(k, Wd(si, w) - .05, -21 if k in ('tick', 'type') else (-16 if k == 'click' else -18)) for si, w, k in POPS]
-SFX += [('swell', SC[15]['voStart'] - 1.2, -19), ('reveal', cues['duration'] - 3.0, -17)]
+SFX += [('swell', SC[15]['voStart'] - 1.2, -19), ('reveal', cues['duration'] - 5.4, -17)]
 DUR = cues['duration'] + PRE
 inp, fc, mixv = ['-i', 'audio/music_a.mp3'], [], []
 idx = 1
@@ -41,7 +41,7 @@ MDUR = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=
 TEMPO = max(.9, min(1.0, MDUR / (DUR - PRE - .3)))
 fc.append(f"[0:a]aresample=44100,aformat=channel_layouts=stereo,atempo={TEMPO:.4f},volume={MUS_DB}dB,adelay={int(PRE * 1000)}|{int(PRE * 1000)}[mus0]")
 fc.append("[mus0][vsc]sidechaincompress=threshold=0.04:ratio=4:attack=30:release=400[mus]")
-fc.append('[mus][vo]' + ''.join(sx) + f"amix=inputs={2 + len(sx)}:normalize=0:duration=first,apad,atrim=0:{DUR},afade=t=out:st={DUR - .5}:d=0.5[out]")
+fc.append('[mus][vo]' + ''.join(sx) + f"amix=inputs={2 + len(sx)}:normalize=0:duration=first,apad,atrim=0:{DUR},afade=t=out:st={DUR - 1.6}:d=1.6[out]")
 subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', *inp, '-filter_complex', ';'.join(fc), '-map', '[out]', '-ar', '48000', 'audio/mix_raw.wav'], check=True)
 # loudnorm 2 passes
 m = subprocess.run(['ffmpeg', '-hide_banner', '-i', 'audio/mix_raw.wav', '-af', 'loudnorm=I=-14:TP=-1.0:LRA=11:print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr

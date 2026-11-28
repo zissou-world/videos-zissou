@@ -17,7 +17,7 @@ SFX = [('reveal', 1.4, -16), ('whoosh', 5.6, -16)] + [('whoosh', SC[i]['voStart'
 POPS = [(2, 'ativar', 'click'), (3, 'fica', 'click'), (4, 'olhinho', 'click'), (4, 'novo', 'click'), (5, 'ranking', 'pop'), (6, 'total', 'pop'),
         (7, 'continuar', 'click'), (9, 'visita', 'tick'), (9, 'novo', 'tick'), (9, 'followup', 'tick'), (9, 'fit', 'tick'), (10, 'saldo', 'pop'), (12, 'nao', 'pop')]
 SFX += [(k, Wd(si, w) - .05, -21 if k in ('tick', 'type') else (-16 if k == 'click' else -18)) for si, w, k in POPS]
-SFX += [('swell', SC[14]['voStart'] - 1.2, -19), ('reveal', cues['duration'] - 3.0, -17)]
+SFX += [('swell', SC[14]['voStart'] - 1.2, -19), ('reveal', cues['duration'] - 5.4, -17)]
 SFX = [(k, t + PRE, g) for k, t, g in SFX] + ([('swell', .4, -17), ('whoosh', 3.3, -13), ('whoosh', 4.5, -15)] if PRE else [])
 DUR = cues['duration'] + PRE
 inp, fc, mixv = ['-i', 'audio/music_a.mp3'], [], []
@@ -39,7 +39,7 @@ MDUR = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=
 TEMPO = max(.9, min(1.0, MDUR / (DUR - PRE - .3)))
 fc.append(f"[0:a]aresample=44100,aformat=channel_layouts=stereo,atempo={TEMPO:.4f},volume={MUS_DB}dB,adelay={int(PRE * 1000)}|{int(PRE * 1000)}[mus0]")
 fc.append("[mus0][vsc]sidechaincompress=threshold=0.04:ratio=4:attack=30:release=400[mus]")
-fc.append('[mus][vo]' + ''.join(sx) + f"amix=inputs={2 + len(sx)}:normalize=0:duration=first,apad,atrim=0:{DUR},afade=t=out:st={DUR - .5}:d=0.5[out]")
+fc.append('[mus][vo]' + ''.join(sx) + f"amix=inputs={2 + len(sx)}:normalize=0:duration=first,apad,atrim=0:{DUR},afade=t=out:st={DUR - 1.6}:d=1.6[out]")
 subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', *inp, '-filter_complex', ';'.join(fc), '-map', '[out]', '-ar', '48000', 'audio/mix_raw.wav'], check=True)
 # loudnorm 2 passes
 m = subprocess.run(['ffmpeg', '-hide_banner', '-i', 'audio/mix_raw.wav', '-af', 'loudnorm=I=-14:TP=-1.0:LRA=11:print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr

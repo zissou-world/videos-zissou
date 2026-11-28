@@ -1,26 +1,26 @@
 1
-00:00:14,240 --> 00:00:15,026
+00:00:14,240 --> 00:00:14,875
 Bom dia!
 
 2
-00:00:15,076 --> 00:00:16,918
+00:00:14,925 --> 00:00:16,326
 Este é o seu Zissou World.
 
 3
-00:00:16,968 --> 00:00:18,764
+00:00:16,376 --> 00:00:18,242
 Antes do primeiro cliente entrar na loja,
 
 4
-00:00:18,814 --> 00:00:20,668
+00:00:18,292 --> 00:00:20,088
 ele já te conta quanto você vendeu,
 
 5
-00:00:20,718 --> 00:00:24,000
-quanto falta para a meta e quem
+00:00:20,138 --> 00:00:23,397
+quanto falta até a meta e quem
 está esperando o seu retorno.
 
 6
-00:00:24,050 --> 00:00:27,029
+00:00:23,447 --> 00:00:26,611
 Em poucos minutos, você vai
 dominar o começo do dia.
 

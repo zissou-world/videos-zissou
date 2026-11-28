@@ -801,11 +801,11 @@ async function composite(c, t) {
   if (inClose) {
     await drawBroll(c, 'fechamento', t, tClose, { speed: .75, dur: 8 });
     const k = ap(t, tClose + .6, .7); if (k.a > 0) { c.save(); c.globalAlpha = k.a; txt(c, 'PRÓXIMO EPISÓDIO', 140, 760, 22, C.coral, { ls: 8 }); txt(c, '02 · Vender', 136, 850, 80, '#FFFFFF'); txt(c, 'Criar um orçamento do zero e registrar a visita', 140, 905, 28, 'rgba(255,255,255,.85)', { w: 600 }); c.restore(); }
-    const te = D_ - 3.0; if (t > te) { const ke = eo(pr(t, te, .8)); c.save(); c.globalAlpha = ke; const g = c.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#0E131C'); g.addColorStop(1, '#1D2A40'); c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore();
+    const te = D_ - 5.4; if (t > te) { const ke = eo(pr(t, te, .8)); c.save(); c.globalAlpha = ke; const g = c.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#0E131C'); g.addColorStop(1, '#1D2A40'); c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore();
       renderer.render(scene, camera); c.save(); c.globalAlpha = ke; c.drawImage(glc, 0, 0); c.restore();
-      txt(c, 'ZISSOU WORLD ACADEMY', 960, 700, 54, '#FFFFFF', { al: 'center', ls: 12, a: ke }); txt(c, 'PORTAL DO VENDEDOR', 960, 760, 22, 'rgba(255,255,255,.75)', { al: 'center', ls: 10, a: ke }); }
+      txt(c, 'ZISSOU WORLD ACADEMY', 960, 700, 54, '#FFFFFF', { al: 'center', ls: 12, a: ke }); txt(c, 'PORTAL DO VENDEDOR', 960, 760, 22, 'rgba(255,255,255,.75)', { al: 'center', ls: 10, a: ke }); rise(c, 'Até o próximo episódio!', 960, 860, 34, C.coral, t, te + 1.0, { al: 'center' }); }
   }
-  const fi = 1 - eo(pr(t, 0, .6)), fo = eio(pr(t, D_ - .6, .6)); if (fi > 0 || fo > 0) { c.fillStyle = `rgba(10,14,20,${Math.max(fi, fo)})`; c.fillRect(0, 0, W, H); }
+  const fi = 1 - eo(pr(t, 0, .6)), fo = eio(pr(t, D_ - 1.1, 1.1)); if (fi > 0 || fo > 0) { c.fillStyle = `rgba(10,14,20,${Math.max(fi, fo)})`; c.fillRect(0, 0, W, H); }
 }
 async function renderAt(t) { camera.position.set(0, 0, D); camera.lookAt(0, 0, 0); await composite(ctx, t); return 1; }
 window.ready = (async () => {
@@ -822,7 +822,7 @@ window.ready = (async () => {
   // 3D: opening hero icon, closing icon, and one object per chapter
   const S = SC, tCh = [S[1].voStart - 3.4, S[4].voStart - 3.4, S[7].voStart - 3.4, S[9].voStart - 3.4];
   addIcon(whiteIcon(shape.pts), 960, 400, 2.1, .3, 5.6, { anim: 'spin', z: 3, ry: -.3 });
-  addIcon(whiteIcon(shape.pts), 960, 470, 1.5, CUES.duration - 3.0, CUES.duration + 2, { anim: 'spin', z: 3, ry: -.3 });
+  addIcon(whiteIcon(shape.pts), 960, 470, 1.5, CUES.duration - 5.4, CUES.duration + 2, { anim: 'spin', z: 3, ry: -.3 });
   const chapIcons = [mStore(), mTrophy(), mWatch(), mPlus()];
   chapIcons.forEach((m, i) => addIcon(m, 1480, 560, i === 1 ? 1.5 : 1.2, tCh[i] + .25, tCh[i] + 2.6, { anim: i === 1 ? 'spin' : 'swing', z: 3, ry: -.4 }));
   // hero objects: one premium 3D object per scene, breaking out of the tablet's lower-left corner
