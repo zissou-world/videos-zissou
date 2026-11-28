@@ -1,8 +1,10 @@
 """Legendas .srt a partir de cues.json (texto com a grafia real). Uso: python3 scripts/srt.py"""
-import json, re
+import json, re, os
+PRE = float(os.environ.get('PRE', 0))
 d = json.load(open('cues.json'))
 FIX = {'Ziçu': 'Zissou', 'Uórld': 'World'}
 def fmt(t):
+    t += PRE
     ms = int(round(t * 1000)); h, ms = divmod(ms, 3600000); m, ms = divmod(ms, 60000); s, ms = divmod(ms, 1000)
     return f'{h:02}:{m:02}:{s:02},{ms:03}'
 cards, cur = [], []

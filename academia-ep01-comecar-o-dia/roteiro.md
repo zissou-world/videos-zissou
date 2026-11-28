@@ -1,10 +1,11 @@
 # Zissou World Academy · Portal do Vendedor — EP. 01 · Começar o dia
 
-**Duração:** 3m12s · 1920×1080 · 30 fps · legendas em `ep01-comecar-o-dia.srt`
+**Duração:** 3m16s · 1920×1080 · 30 fps · legendas em `ep01-comecar-o-dia.srt`
 **Objetivo:** ensinar ao vendedor o que fazer no Portal do Vendedor no começo do turno: entrar, escolher a loja, ativar as notificações, ficar Online, ler o placar, as premiações e a meta, trabalhar o "Preciso agir" e usar os atalhos (botão +, Estoque, Histórico do Cliente e Notificações).
 **Fonte:** PDF "Vídeo 01 — Começar o dia" (14 cenas, 4 capítulos e um checklist).
 **Estética:** padrão de série de treinamento.
-- **Abertura:** ícone Zissou em 3D e o selo "ZISSOU WORLD ACADEMY", com transição em íris.
+- **Abertura:** vinheta cinematográfica da série, gerada no Higgsfield (tecido de cama em luz dourada e ripados terracota, terminando no ícone 3D da Zissou em cerâmica perolada). Depois o selo "ZISSOU WORLD ACADEMY", com transição em íris.
+- **Objetos 3D:** um objeto premium por cena (loja, sino, balões, gráfico, troféu, alvo, relógio, calendário, botão +, caixa, busca de cliente, escudo), com brilho e sombra, saindo do canto do tablet.
 - **Cenas na loja:** b-roll gerado no Higgsfield, seguindo o guia da loja (vendedor de camiseta branca e calça azul-marinho, tablet Samsung). Na tela do tablet entram imagens reais do portal.
 - **Cenas de tela:** palco claro com as cores Zissou (coral, ardósia, azul-noite) e telas do portal num tablet em mockup. A câmera dá zoom no ponto explicado, com anel de destaque e cursor.
 - **Capítulos:** cartões com ícones 3D e uma barra de progresso no topo.
@@ -18,12 +19,12 @@
 ## Capítulos (para a descrição do vídeo)
 ```
 0:00 Abertura
-0:23 Capítulo 01 · Entrar e escolher a loja
-1:06 Capítulo 02 · Placar e premiações
-1:46 Capítulo 03 · Preciso agir
-2:09 Capítulo 04 · Atalhos e estoque
-2:54 Checklist do dia
-3:03 Próximo episódio
+0:27 Capítulo 01 · Entrar e escolher a loja
+1:10 Capítulo 02 · Placar e premiações
+1:50 Capítulo 03 · Preciso agir
+2:13 Capítulo 04 · Atalhos e estoque
+2:57 Checklist do dia
+3:06 Próximo episódio
 ```
 
 | # | Cena | Visual | Locução |
@@ -46,7 +47,7 @@
 | 15 | **Próximo episódio** | B-roll do vendedor atendendo, cartão "Próximo episódio · 02 · Vender" e a assinatura Zissou World Academy. | "No próximo vídeo, vamos criar um orçamento do zero e registrar a visita. Até lá!" |
 
 ## Locução e som
-- Voz clonada do Marcio (ElevenLabs). Para a pronúncia, o texto enviado à voz grafa "Ziçu Uórld". Cada fala foi conferida com transcrição automática.
+- Voz clonada do Marcio (ElevenLabs). Para a pronúncia, o texto enviado à voz grafa "Ziçu World" ("World" em inglês). Cada fala foi conferida com transcrição automática.
 - Trilha original, cinematográfica, com sidechain sob a voz. Os capítulos entram com efeitos de whoosh e reveal. Loudness final de −14 LUFS.
 - Legendas: `ep01-comecar-o-dia.srt` (57 blocos, grafia real "Zissou World"), geradas pelo `scripts/srt.py` a partir dos tempos por palavra.
 

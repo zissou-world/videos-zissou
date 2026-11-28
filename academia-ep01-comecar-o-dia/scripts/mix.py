@@ -1,5 +1,6 @@
 """Mixa locução (segmentos do cues.json), trilha e efeitos; normaliza para -14 LUFS. Uso: python3 scripts/mix.py [ganho_musica_dB]"""
-import json, subprocess, sys
+import json, subprocess, sys, os
+PRE = float(os.environ.get('PRE', 0))   # pre-roll of the series intro (seconds); everything is delayed by it
 MUS_DB = float(sys.argv[1]) if len(sys.argv) > 1 else -9
 cues = json.load(open('cues.json'))
 import unicodedata, re
@@ -17,14 +18,15 @@ POPS = [(2, 'ativar', 'click'), (3, 'fica', 'click'), (4, 'olhinho', 'click'), (
         (7, 'continuar', 'click'), (9, 'visita', 'tick'), (9, 'novo', 'tick'), (9, 'followup', 'tick'), (9, 'fit', 'tick'), (10, 'saldo', 'pop'), (12, 'nao', 'pop')]
 SFX += [(k, Wd(si, w) - .05, -21 if k in ('tick', 'type') else (-16 if k == 'click' else -18)) for si, w, k in POPS]
 SFX += [('swell', SC[14]['voStart'] - 1.2, -19), ('reveal', cues['duration'] - 3.0, -17)]
-DUR = cues['duration']
+SFX = [(k, t + PRE, g) for k, t, g in SFX] + ([('swell', .4, -17), ('whoosh', 3.3, -13), ('whoosh', 4.5, -15)] if PRE else [])
+DUR = cues['duration'] + PRE
 inp, fc, mixv = ['-i', 'audio/music_a.mp3'], [], []
 idx = 1
 for i, s in enumerate(cues['segments']):
     inp += ['-i', f"audio/vo/{s['line']}.mp3"]
     d = s['to'] - s['from']
     fc.append(f"[{idx}:a]atrim={s['from']}:{s['to']},asetpts=PTS-STARTPTS,afade=t=in:d=0.01,afade=t=out:st={max(0, d - .02):.3f}:d=0.02,"
-              f"aresample=44100,aformat=channel_layouts=stereo,adelay={int(s['at'] * 1000)}|{int(s['at'] * 1000)}[v{i}]")
+              f"aresample=44100,aformat=channel_layouts=stereo,adelay={int((s['at'] + PRE) * 1000)}|{int((s['at'] + PRE) * 1000)}[v{i}]")
     mixv.append(f'[v{i}]'); idx += 1
 fc.append(''.join(mixv) + f"amix=inputs={len(mixv)}:normalize=0,highpass=f=75,equalizer=f=3200:t=q:w=1.2:g=2,"
           "acompressor=threshold=-20dB:ratio=3:attack=8:release=120:makeup=3dB,asplit=2[vo][vsc]")
@@ -34,8 +36,8 @@ for j, (k, t, g) in enumerate(SFX):
     fc.append(f"[{idx}:a]aresample=44100,aformat=channel_layouts=stereo,volume={g}dB,adelay={int(t * 1000)}|{int(t * 1000)}[s{j}]")
     sx.append(f'[s{j}]'); idx += 1
 MDUR = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', 'audio/music_a.mp3'], capture_output=True, text=True).stdout)
-TEMPO = max(.9, min(1.0, MDUR / (DUR - .3)))
-fc.append(f"[0:a]aresample=44100,aformat=channel_layouts=stereo,atempo={TEMPO:.4f},volume={MUS_DB}dB[mus0]")
+TEMPO = max(.9, min(1.0, MDUR / (DUR - PRE - .3)))
+fc.append(f"[0:a]aresample=44100,aformat=channel_layouts=stereo,atempo={TEMPO:.4f},volume={MUS_DB}dB,adelay={int(PRE * 1000)}|{int(PRE * 1000)}[mus0]")
 fc.append("[mus0][vsc]sidechaincompress=threshold=0.04:ratio=4:attack=30:release=400[mus]")
 fc.append('[mus][vo]' + ''.join(sx) + f"amix=inputs={2 + len(sx)}:normalize=0:duration=first,apad,atrim=0:{DUR},afade=t=out:st={DUR - .5}:d=0.5[out]")
 subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', *inp, '-filter_complex', ';'.join(fc), '-map', '[out]', '-ar', '48000', 'audio/mix_raw.wav'], check=True)

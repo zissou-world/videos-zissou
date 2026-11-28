@@ -131,20 +131,22 @@ renderer.toneMapping = THREE.NeutralToneMapping; renderer.outputColorSpace = THR
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
 const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = .8;
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = 1.0;
 const D = 20;
 const camera = new THREE.PerspectiveCamera(2 * Math.atan(5.4 / D) * 180 / Math.PI, W / H, .5, 200);
 const key = new THREE.DirectionalLight(0xffffff, 1.8); key.castShadow = false; key.shadow.mapSize.set(2048, 2048); key.shadow.radius = 8; key.shadow.bias = -.0005;
 Object.assign(key.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6, near: 1, far: 40 });
 scene.add(key); scene.add(key.target);
-scene.add(new THREE.HemisphereLight(0xffffff, 0xe6e2dc, .9));
+scene.add(new THREE.HemisphereLight(0xffffff, 0xe6e2dc, .8));
+const rim = new THREE.DirectionalLight(0xFFB9AC, 2.2); rim.position.set(-7, 5, -9); scene.add(rim);   // warm coral rim from behind
+const rim2 = new THREE.DirectionalLight(0xCFE0FF, .9); rim2.position.set(8, -3, -6); scene.add(rim2);
 const toU = px => px / 100;
 function scenePos(i, sx, sy, z = 0) { return V(toU(A[i].x + sx - 960), -toU(A[i].y + sy - 540), z); }
 const M = {
-  white: new THREE.MeshPhysicalMaterial({ color: 0xfaf9f7, roughness: .38, clearcoat: .4, clearcoatRoughness: .35, sheen: .3 }),
-  coral: new THREE.MeshPhysicalMaterial({ color: 0xE4796F, roughness: .36, clearcoat: .45, clearcoatRoughness: .3 }),
-  navy: new THREE.MeshPhysicalMaterial({ color: 0x293C4D, roughness: .4, clearcoat: .4 }),
-  slate: new THREE.MeshPhysicalMaterial({ color: 0x5A7196, roughness: .4, clearcoat: .3 }),
+  white: new THREE.MeshPhysicalMaterial({ color: 0xfbf8f5, roughness: .28, clearcoat: .9, clearcoatRoughness: .12, sheen: .4, sheenColor: 0xffe6dc }),
+  coral: new THREE.MeshPhysicalMaterial({ color: 0xE4796F, roughness: .3, clearcoat: 1, clearcoatRoughness: .08, sheen: .3, sheenColor: 0xffc9bd }),
+  navy: new THREE.MeshPhysicalMaterial({ color: 0x22344A, roughness: .3, clearcoat: 1, clearcoatRoughness: .1 }),
+  slate: new THREE.MeshPhysicalMaterial({ color: 0x5A7196, roughness: .3, clearcoat: .8, clearcoatRoughness: .12 }),
   shadow: new THREE.ShadowMaterial({ opacity: .16 }),
 };
 const sh = g => { g.traverse(o => { if (o.isMesh) { o.castShadow = true; } }); return g; };
@@ -356,6 +358,35 @@ function mTrophy() {
   return sh(g);
 }
 
+function mTarget() {
+  const g = new THREE.Group(), rot = Math.PI / 2;
+  [[1.3, M.white, 0], [1.0, M.coral, .07], [.68, M.white, .14], [.36, M.coral, .21]].forEach(([r, m, z]) => g.add(mesh(new THREE.CylinderGeometry(r, r, .3, 72).rotateX(rot), m, 0, 0, z)));
+  const dart = new THREE.Group(); dart.position.set(.05, .05, .4); dart.rotation.set(-.5, .55, 0);
+  dart.add(mesh(new THREE.CylinderGeometry(.05, .05, 1.5, 16).rotateX(rot), M.navy, 0, 0, .75));
+  dart.add(mesh(new THREE.ConeGeometry(.09, .3, 16).rotateX(-rot), M.navy, 0, 0, -.05));
+  for (let i = 0; i < 3; i++) { const f = mesh(new RoundedBoxGeometry(.04, .34, .42, 2, .015), M.coral, 0, 0, 1.38); f.rotation.z = i * Math.PI * 2 / 3; f.geometry.translate(0, .17, 0); dart.add(f); }
+  g.add(dart); return sh(g);
+}
+function mPlus() {
+  const g = new THREE.Group();
+  g.add(mesh(new THREE.CylinderGeometry(1.15, 1.15, .42, 72).rotateX(Math.PI / 2), M.navy));
+  g.add(mesh(new THREE.TorusGeometry(1.15, .1, 20, 72), M.coral));
+  g.add(mesh(new RoundedBoxGeometry(1.1, .28, .2, 3, .1), M.white, 0, 0, .27));
+  g.add(mesh(new RoundedBoxGeometry(.28, 1.1, .2, 3, .1), M.white, 0, 0, .27));
+  return sh(g);
+}
+function mPerson() {
+  const g = new THREE.Group();
+  g.add(mesh(new THREE.SphereGeometry(.55, 48, 32), M.white, -.2, .62, 0));
+  const prof = [[0, -1.05], [1.0, -1.05], [1.05, -.95], [1.0, -.55], [.82, -.18], [.5, 0], [0, .02]].map(p => new THREE.Vector2(p[0], p[1]));
+  g.add(mesh(new THREE.LatheGeometry(prof, 64), M.white, -.2, 0, 0));
+  const lens = new THREE.Group(); lens.position.set(.75, -.35, .65); lens.rotation.z = -.6;
+  lens.add(mesh(new THREE.TorusGeometry(.42, .11, 20, 56), M.coral));
+  lens.add(mesh(new THREE.CircleGeometry(.36, 48), new THREE.MeshPhysicalMaterial({ color: 0xd8e6ff, roughness: .05, transmission: .6, transparent: true, opacity: .55, clearcoat: 1 }), 0, 0, -.01));
+  lens.add(mesh(new RoundedBoxGeometry(.2, .7, .2, 3, .08), M.navy, 0, -.82, 0));
+  g.add(lens); return sh(g);
+}
+
 function uiIcon(c, kind, x, y, s, color) {
   c.save(); c.translate(x, y); c.strokeStyle = color; c.fillStyle = color; c.lineWidth = s * .09; c.lineCap = 'round'; c.lineJoin = 'round';
   if (kind === 'doc') { rr(c, -s * .32, -s * .42, s * .64, s * .84, s * .1); c.stroke(); for (let i = 0; i < 3; i++) { c.beginPath(); c.moveTo(-s * .16, -s * .15 + i * s * .17); c.lineTo(s * .16, -s * .15 + i * s * .17); c.stroke(); } }
@@ -417,19 +448,35 @@ const sp = (px, py, z = 0) => V(toU(px - W / 2), -toU(py - H / 2), z);
 const ICONS = [];
 function addIcon(model, x, y, scale, tIn, tOut, o = {}) { const grp = new THREE.Group(); grp.add(model); scene.add(grp); ICONS.push({ model, grp, x, y, scale, tIn, tOut, o }); }
 let ZICON;
-function whiteIcon(pts) { const z = mIcon(pts); z.traverse(o => { if (o.isMesh) o.material = new THREE.MeshPhysicalMaterial({ color: 0xFFF6EE, roughness: .3, emissive: 0xFFE3D4, emissiveIntensity: .45, clearcoat: .4 }); }); return z; }
+const HPOS = { 1: [1630, 840], 3: [950, 880], 7: [940, 800], 12: [930, 815] };   // per-scene override [x, y, r]
+function whiteIcon(pts) {   // premium hero logo: thick pearl-ceramic body, glossy coat, coral edge light from the rims
+  const s = new THREE.Shape(pts.map(p => new THREE.Vector2(p[0], p[1])));
+  const z = new THREE.Group();
+  z.add(new THREE.Mesh(ext(s, .55, .14, 10), new THREE.MeshPhysicalMaterial({ color: 0xF4ECE6, roughness: .24, clearcoat: 1, clearcoatRoughness: .03, sheen: .5, sheenColor: 0xFF9F8C, sheenRoughness: .35, emissive: 0x3A1E1A, emissiveIntensity: .0, iridescence: .25, iridescenceIOR: 1.35 })));
+  return sh(z);
+}
 function upd3D(t) {
   for (const ic of ICONS) {
-    const vis = t > ic.tIn - .1 && t < ic.tOut + .6; ic.grp.visible = vis; if (!vis) continue;
+    const vis = t > ic.tIn - .1 && t < ic.tOut + .6; ic.grp.visible = vis; ic.k = 0; if (!vis) continue;
     const kin = pr(t, ic.tIn, 1.0), kout = eio(pr(t, ic.tOut, .5)), k = backO(kin) * (1 - kout), lt = t - ic.tIn - 1;
     let ey = 0, ez = 0, sc = 1;
     if (ic.o.anim === 'spin' && lt > 0) ey = Math.PI * 2 * eio(pr((lt % 4) / 4, .6, .3));
     if (ic.o.anim === 'swing') ez = Math.sin(t * 2.2) * .18;
     if (ic.o.anim === 'beat' && lt > 0) sc = 1 + .1 * Math.pow(Math.max(0, Math.sin(t * 3.4)), 10);
     ic.grp.position.copy(sp(ic.x, ic.y, ic.o.z ?? 2)).add(V(0, Math.sin(t * 1.5 + ic.x) * .1 - (1 - eo(kin)) * 1.2 + kout * .7, 0));
-    ic.grp.scale.setScalar(Math.max(.001, ic.scale * k * sc));
+    ic.t = t; ic.k = k; ic.grp.scale.setScalar(Math.max(.001, ic.scale * k * sc));
     ic.grp.rotation.set(.1 + Math.sin(t * .9) * .06, (ic.o.ry ?? .4) + Math.sin(t * .6 + ic.y) * .2 + (1 - eo(kin)) * Math.PI * 2 + ey + kout * 2, Math.sin(t * .8) * .04 + ez);
   }
+}
+function heroFX(c) {
+  for (const ic of ICONS) { if (!ic.o.hero || !ic.grp.visible || !(ic.k > .01)) continue;
+    const R = 125 * ic.o.r * clamp(ic.k), x = ic.x, y = ic.y + Math.sin(ic.t * 1.5 + ic.x) * 10;
+    c.save();
+    let g = c.createRadialGradient(x, y, 0, x, y, R * 1.9); g.addColorStop(0, 'rgba(240,140,125,.34)'); g.addColorStop(.45, 'rgba(240,150,135,.14)'); g.addColorStop(1, 'rgba(240,150,135,0)');
+    c.fillStyle = g; c.fillRect(x - R * 2, y - R * 2, R * 4, R * 4);
+    c.translate(x + R * .25, y + R * 1.02); c.scale(1, .2); g = c.createRadialGradient(0, 0, 0, 0, 0, R * .95); g.addColorStop(0, 'rgba(20,27,38,.30)'); g.addColorStop(1, 'rgba(20,27,38,0)');
+    c.fillStyle = g; c.beginPath(); c.arc(0, 0, R * .95, 0, Math.PI * 2); c.fill();
+    c.restore(); }
 }
 // ---------- b-roll frames ----------
 const BR = { meta: {}, cache: new Map() };
@@ -732,6 +779,7 @@ async function composite(c, t) {
     checklist(c, t);
   }
   // 3D icons (stage) render
+  if (showStage) heroFX(c);
   renderer.render(scene, camera); if (showStage) c.drawImage(glc, 0, 0);
   // ---- chapter cards on top ----
   let cardOn = 0; CHAPS.forEach(([n, title], i) => { cardOn = Math.max(cardOn, chapterCard(c, t, n, title, tCh[i])); }); if (cardOn > 0) { c.save(); c.globalAlpha = cardOn; c.drawImage(glc, 0, 0); c.restore(); }
@@ -775,11 +823,15 @@ window.ready = (async () => {
   const S = SC, tCh = [S[1].voStart - 3.4, S[4].voStart - 3.4, S[7].voStart - 3.4, S[9].voStart - 3.4];
   addIcon(whiteIcon(shape.pts), 960, 400, 2.1, .3, 5.6, { anim: 'spin', z: 3, ry: -.3 });
   addIcon(whiteIcon(shape.pts), 960, 470, 1.5, CUES.duration - 3.0, CUES.duration + 2, { anim: 'spin', z: 3, ry: -.3 });
-  const chapIcons = [mStore(), mTrophy(), mBell(), mBox()];
+  const chapIcons = [mStore(), mTrophy(), mWatch(), mPlus()];
   chapIcons.forEach((m, i) => addIcon(m, 1480, 560, i === 1 ? 1.5 : 1.2, tCh[i] + .25, tCh[i] + 2.6, { anim: i === 1 ? 'spin' : 'swing', z: 3, ry: -.4 }));
-  addIcon(mBell(), 640, 240, .5, S[2].voStart - .2, S[2].voEnd + .2, { anim: 'swing' });
-  addIcon(mTrophy(), 650, 230, .55, S[5].voStart - .2, S[5].voEnd + .2, { anim: 'spin' });
-  addIcon(mBox(), 640, 240, .45, S[10].voStart - .2, S[10].voEnd + .2, {});
+  // hero objects: one premium 3D object per scene, breaking out of the tablet's lower-left corner
+  const tPrecisoMock = Wd(7, 'dica') - .4, HX = 830, HY = 850;
+  const HERO = [[1, mStore, .78, tCh[0] + 2.7, S[2].voStart - .9, 'beat'], [2, mBell, 1.1, S[2].voStart - .5, S[3].voStart - .9, 'swing'], [3, mBubbles, .88, S[3].voStart - .5, tCh[1] - .7, 'beat'],
+    [4, mTrend, 1.0, tCh[1] + 2.7, S[5].voStart - .9, 'beat'], [5, mTrophy, 1.1, S[5].voStart - .5, S[6].voStart - .9, 'spin'], [6, mTarget, 1.0, S[6].voStart - .5, S[7].voStart - 3.9, 'beat'],
+    [7, mWatch, 1.0, tPrecisoMock + .3, S[8].voStart - .9, 'beat'], [8, mCalendar, 1.05, S[8].voStart - .5, tCh[3] - .7, 'beat'], [9, mPlus, 1.05, tCh[3] + 2.7, S[10].voStart - .9, 'spin'],
+    [10, mBox, 1.12, S[10].voStart - .5, S[11].voStart - .9, 'beat'], [11, mPerson, 1.05, S[11].voStart - .5, S[12].voStart - .9, 'beat'], [12, mShield, 1.1, S[12].voStart - .5, S[13].voStart - 2.0, 'beat']];
+  for (const [i, mk, sc, t0, t1, anim] of HERO) { const p = (HPOS[i] || [HX, HY]); addIcon(mk(), p[0], p[1], sc, t0, t1, { anim, z: 2.4, ry: .45, hero: true, r: p[2] || 1 }); }
   renderer.compile(scene, camera);
   return true;
 })();
