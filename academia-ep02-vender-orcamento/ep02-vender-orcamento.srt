@@ -1,258 +1,263 @@
 1
-00:00:14,240 --> 00:00:16,825
-Total, cartão e PIX,
-prontos para o cliente.
+00:00:14,240 --> 00:00:15,560
+Imagine o cliente do seu lado.
 
 2
-00:00:16,875 --> 00:00:20,227
-Em poucos minutos, você vai montar
-um orçamento assim em menos de dois,
+00:00:15,610 --> 00:00:17,696
+Em menos de dois minutos, ele já tem tudo:
 
 3
-00:00:20,277 --> 00:00:21,828
-com o cliente do seu lado.
+00:00:17,746 --> 00:00:20,575
+os produtos, o total no cartão e no PIX,
 
 4
-00:00:23,078 --> 00:00:25,536
-O orçamento é onde a
-venda começa a acontecer.
+00:00:20,625 --> 00:00:22,060
+e o link para pagar.
 
 5
-00:00:25,586 --> 00:00:29,179
-Vamos montar um juntos, do jeito
-que você faz na loja todos os dias.
+00:00:23,310 --> 00:00:25,245
+É aqui que a venda começa a acontecer.
 
 6
-00:00:33,229 --> 00:00:36,140
+00:00:25,295 --> 00:00:26,998
+Vamos montar um orçamento juntos,
+
+7
+00:00:27,048 --> 00:00:29,551
+do jeito que você faz
+na loja todos os dias.
+
+8
+00:00:33,601 --> 00:00:36,512
 Toque no botão mais e
 escolha Novo Orçamento.
 
-7
-00:00:36,190 --> 00:00:39,367
+9
+00:00:36,562 --> 00:00:39,739
 Também dá para criar direto de
 dentro de uma conversa do WhatsApp,
 
-8
-00:00:39,417 --> 00:00:40,677
+10
+00:00:39,789 --> 00:00:41,049
 sem sair dela.
 
-9
-00:00:41,527 --> 00:00:42,882
+11
+00:00:41,899 --> 00:00:43,254
 Primeiro, o cliente.
 
-10
-00:00:42,932 --> 00:00:45,239
+12
+00:00:43,304 --> 00:00:45,611
 Se ele já passou pela loja
 nos últimos noventa dias,
 
-11
-00:00:45,289 --> 00:00:48,350
+13
+00:00:45,661 --> 00:00:48,722
 aparece aqui em Leads
 recentes: é só tocar no nome.
 
-12
-00:00:48,400 --> 00:00:50,835
+14
+00:00:48,772 --> 00:00:51,207
 Se não, busque por nome,
 telefone ou e-mail,
 
-13
-00:00:50,885 --> 00:00:53,201
+15
+00:00:51,257 --> 00:00:53,573
 ou toque em Cadastrar novo cliente.
 
-14
-00:00:57,251 --> 00:00:59,024
+16
+00:00:57,623 --> 00:00:59,396
 Agora, os produtos.
 
-15
-00:00:59,074 --> 00:01:02,983
+17
+00:00:59,446 --> 00:01:03,355
 Digite o nome ou o código do produto,
 e toque no item e no tamanho.
 
-16
-00:01:03,033 --> 00:01:05,595
+18
+00:01:03,405 --> 00:01:05,967
 Repita para cada um: colchão, travesseiro,
 
-17
-00:01:05,645 --> 00:01:06,977
+19
+00:01:06,017 --> 00:01:07,349
 lençol, protetor.
 
-18
-00:01:07,027 --> 00:01:10,551
+20
+00:01:07,399 --> 00:01:10,923
 Não esqueça o ritual completo:
 é ele que aumenta o ticket.
 
-19
-00:01:11,401 --> 00:01:13,603
+21
+00:01:11,773 --> 00:01:13,975
 Venda indicada por arquiteto ou arquiteta?
 
-20
-00:01:13,653 --> 00:01:17,177
+22
+00:01:14,025 --> 00:01:17,549
 Toque em Adicionar arquiteto,
 e registre quem indicou.
 
-21
-00:01:21,227 --> 00:01:23,894
+23
+00:01:21,599 --> 00:01:24,266
 O Desconto de urgência cria um
 cupom que vale por poucas horas,
 
-22
-00:01:23,944 --> 00:01:25,703
+24
+00:01:24,316 --> 00:01:26,075
 quando o cliente abre o link.
 
-23
-00:01:25,767 --> 00:01:29,418
+25
+00:01:26,139 --> 00:01:29,790
 Use quando o cliente está decidido,
 e você quer que ele feche hoje.
 
-24
-00:01:30,268 --> 00:01:32,784
+26
+00:01:30,640 --> 00:01:33,156
 Em Condições comerciais,
 você marca por onde atendeu:
 
-25
-00:01:32,834 --> 00:01:35,280
+27
+00:01:33,206 --> 00:01:35,652
 cliente na loja, WhatsApp,
 telefone ou outro.
 
-26
-00:01:35,330 --> 00:01:37,788
+28
+00:01:35,702 --> 00:01:38,160
 Isso só identifica o canal;
 não registra visita.
 
-27
-00:01:37,838 --> 00:01:41,247
+29
+00:01:38,210 --> 00:01:41,619
 Depois, confira o frete, o
 prazo de entrega e a validade,
 
-28
-00:01:41,297 --> 00:01:42,420
+30
+00:01:41,669 --> 00:01:42,792
 que é de sete dias.
 
-29
-00:01:42,470 --> 00:01:44,682
+31
+00:01:42,842 --> 00:01:45,054
 Se for entrega futura, marque aqui.
 
-30
-00:01:45,532 --> 00:01:48,466
+32
+00:01:45,904 --> 00:01:48,838
 Lá embaixo está o total, com
 o valor no cartão e no PIX.
 
-31
-00:01:48,516 --> 00:01:50,498
+33
+00:01:48,888 --> 00:01:50,870
 Você ajusta as condições ali mesmo,
 
-32
-00:01:50,548 --> 00:01:53,491
+34
+00:01:50,920 --> 00:01:53,863
 e o cliente vê exatamente
 esses valores no link.
 
-33
-00:01:54,341 --> 00:01:57,844
+35
+00:01:54,713 --> 00:01:58,216
 Atenção à regra: o desconto
 nunca passa da sua alçada.
 
-34
-00:01:57,894 --> 00:01:59,190
+36
+00:01:58,266 --> 00:01:59,562
 Se o cliente pedir mais,
 
-35
-00:01:59,240 --> 00:02:02,499
+37
+00:01:59,612 --> 00:02:02,871
 o orçamento vai para aprovação
 do líder ou da coordenação,
 
-36
-00:02:02,549 --> 00:02:05,170
+38
+00:02:02,921 --> 00:02:05,542
 e você acompanha a resposta ali mesmo.
 
-37
-00:02:05,220 --> 00:02:06,433
+39
+00:02:05,592 --> 00:02:06,805
 Sem atalho.
 
-38
-00:02:07,283 --> 00:02:09,358
+40
+00:02:07,655 --> 00:02:09,730
 Use Observações para o que
 o cliente precisa ler:
 
-39
-00:02:09,408 --> 00:02:12,051
+41
+00:02:09,780 --> 00:02:12,423
 o combinado de entrega,
 um detalhe do produto.
 
-40
-00:02:12,101 --> 00:02:15,288
+42
+00:02:12,473 --> 00:02:15,660
 Esse texto aparece no PDF e no link.
 
-41
-00:02:19,338 --> 00:02:19,903
+43
+00:02:19,710 --> 00:02:20,275
 Tudo certo?
 
-42
-00:02:19,953 --> 00:02:21,238
+44
+00:02:20,325 --> 00:02:21,610
 Toque em Salvar e enviar.
 
-43
-00:02:21,288 --> 00:02:23,897
+45
+00:02:21,660 --> 00:02:24,269
 O cliente recebe o link oficial
 do orçamento da Zissou,
 
-44
-00:02:23,947 --> 00:02:25,174
+46
+00:02:24,319 --> 00:02:25,546
 e paga direto por ali.
 
-45
-00:02:25,224 --> 00:02:26,347
+47
+00:02:25,596 --> 00:02:26,719
 Ainda está negociando?
 
-46
-00:02:26,397 --> 00:02:28,783
+48
+00:02:26,769 --> 00:02:29,155
 Salve como rascunho, e termine depois.
 
-47
-00:02:32,833 --> 00:02:34,966
+49
+00:02:33,205 --> 00:02:35,338
 Cliente entrou, conversou e não fechou?
 
-48
-00:02:35,016 --> 00:02:39,215
+50
+00:02:35,388 --> 00:02:39,587
 Registre a visita: nome, telefone,
 o que procurava e como foi.
 
-49
-00:02:39,265 --> 00:02:41,676
+51
+00:02:39,637 --> 00:02:42,048
 É essa visita que gera os seus follow-ups,
 
-50
-00:02:41,726 --> 00:02:44,136
+52
+00:02:42,098 --> 00:02:44,508
 e não deixa nenhum cliente
 cair no esquecimento.
 
-51
-00:02:44,986 --> 00:02:48,187
+53
+00:02:45,358 --> 00:02:48,559
 Em Compras na Loja, você vê as
 visitas e as vendas da loja.
 
-52
-00:02:48,237 --> 00:02:51,877
+54
+00:02:48,609 --> 00:02:52,249
 Use os filtros para acompanhar
 o seu resultado e o do time.
 
-53
-00:02:54,327 --> 00:02:57,679
+55
+00:02:54,699 --> 00:02:58,051
 Resumindo: cliente, produtos, condições,
 
-54
-00:02:57,729 --> 00:02:59,687
+56
+00:02:58,101 --> 00:03:00,059
 enviar e registrar a visita.
 
-55
-00:02:59,737 --> 00:03:03,865
+57
+00:03:00,109 --> 00:03:04,237
 Antes de ir, confira o checklist
 e faça cada item no seu portal.
 
-56
-00:03:06,115 --> 00:03:09,873
+58
+00:03:06,487 --> 00:03:10,245
 No próximo vídeo, vamos acompanhar
 esses orçamentos até virar venda.
 
-57
-00:03:09,923 --> 00:03:10,916
+59
+00:03:10,295 --> 00:03:11,288
 Até lá!

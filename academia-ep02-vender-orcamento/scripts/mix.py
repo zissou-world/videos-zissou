@@ -15,7 +15,7 @@ def Wd(si, w, n=1):
 SC = cues['scenes']; TR = [(SC[i]['voEnd'] + SC[i + 1]['voStart']) / 2 for i in range(len(SC) - 1)]
 CH = (2, 4, 6, 11, 12)
 SFX = [('reveal', 1.4, -16), ('whoosh', 5.6, -16)] + [('whoosh', SC[i]['voStart'] - 3.6, -17) for i in CH] + [('reveal', SC[i]['voStart'] - 3.2, -21) for i in CH]
-POPS = [(0, 'total', 'pop'), (0, 'cartao', 'pop'), (0, 'piquis', 'pop'), (2, 'mais', 'click'), (2, 'novo', 'tick'), (3, 'tocar', 'click'), (3, 'cadastrar', 'tick'),
+POPS = [(0, 'produtos', 'pop'), (0, 'total', 'pop'), (0, 'cartao', 'pop'), (0, 'piquis', 'pop'), (0, 'link', 'pop'), (2, 'mais', 'click'), (2, 'novo', 'tick'), (3, 'tocar', 'click'), (3, 'cadastrar', 'tick'),
         (4, 'item', 'click'), (4, 'colchao', 'tick'), (4, 'travesseiro', 'tick'), (4, 'lencol', 'tick'), (4, 'protetor', 'tick'), (5, 'registre', 'click'), (6, 'decidido', 'click'),
         (7, 'cliente', 'tick'), (7, 'futura', 'click'), (8, 'cartao', 'pop'), (8, 'piquis', 'pop'), (9, 'pedir', 'pop'), (9, 'atalho', 'snap'), (11, 'enviar', 'click'), (11, 'link', 'reveal'),
         (12, 'gera', 'click'), (13, 'filtros', 'click'), (14, 'cliente', 'tick'), (14, 'produtos', 'tick'), (14, 'condicoes', 'tick'), (14, 'enviar', 'tick'), (14, 'registrar', 'tick')]

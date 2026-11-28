@@ -890,8 +890,8 @@ async function composite(c, t) {
     if (inBroll) { await drawBroll(c, 'abertura', t, tB0, { speed: .8, dur: 6 });
       const k = ap(t, tB0 + .9, .7); if (k.a > 0) { c.save(); c.globalAlpha *= k.a * (1 - pr(t, tTab0 - .4, .4)); txt(c, 'EPISÓDIO 02', 140, 830, 22, C.coral, { ls: 8 }); txt(c, 'Vender', 136, 910, 76, '#FFFFFF'); c.restore(); } }
     if (inTab) { await drawBroll(c, 'tablet_orc', t, tTab0, { letterbox: .6, dur: 10 }); const a0 = 1 - clamp(pr(t, tTab0, .35)); if (a0 > 0) { c.save(); c.globalAlpha *= a0; await drawBroll(c, 'abertura', t, tB0, { speed: .8 }); c.restore(); }
-      [['Total', 'total'], ['No cartão', 'cartao'], ['No PIX', 'piquis']].forEach(([s, w], i) => pill(c, s, 140, 260 + i * 86, 28, i === 2 ? '#1F8A57' : 'rgba(20,27,38,.82)', '#fff', pr(t, Wd(0, w) - .15, .5), { shadow: true }));
-      tag(c, t, 'Orçamento em menos de 2 minutos', Wd(0, 'menos') - .3, tStage0 + .4, { y: 860, bg: C.coral, size: 32 }); }
+      [['Produtos', 'produtos'], ['Total', 'total'], ['No cartão', 'cartao'], ['No PIX', 'piquis'], ['Link para pagar', 'link']].forEach(([s, w], i) => pill(c, s, 140, 230 + i * 86, 28, i === 3 ? '#1F8A57' : i === 4 ? C.coral : 'rgba(20,27,38,.82)', '#fff', pr(t, Wd(0, w) - .15, .5), { shadow: true }));
+      tag(c, t, 'Pronto em menos de 2 minutos', Wd(0, 'menos') - .3, tStage0 + .4, { y: 860, bg: C.ink, size: 32 }); }
     c.restore();
   }
   if (inOpen) { opening(c, t); renderer.render(scene, camera); c.drawImage(glc, 0, 0); const kw = openingText(c, t);
