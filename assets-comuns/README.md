@@ -6,4 +6,8 @@
   - Volume sugerido na mixagem: cerca de −8 dB, que fica em destaque, mas abaixo da voz.
 
 ## Cenas de apoio (b-roll) geradas com a Higgsfield
-- `broll/loja_vendedor_celular.mp4`: vendedor mostrando o celular a uma cliente numa loja de colchões com parede de tubetes vermelhos. 5 s, 1080p, sem áudio. Feita no Seedance 2.5 pelo MCP da Higgsfield (plano Plus), por 80 créditos. As pessoas são geradas por IA.
+Siga o `GUIA_CENAS.md`: uniforme com calça azul-marinho e camiseta branca, tablet Samsung e a loja das fotos de referência.
+- `broll/loja_vendedor_tablet.mp4`: vendedor de uniforme mostrando o tablet a uma cliente, dentro da loja.
+  - 5 s, 1080p, sem áudio.
+  - Feita no Seedance 2.5 pelo MCP da Higgsfield (plano Plus), com as fotos de `referencias-loja/` como referência, por 80 créditos.
+  - As pessoas são geradas por IA.
