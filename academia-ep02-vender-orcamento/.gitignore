@@ -1,0 +1,4 @@
+audio/*.wav
+audio/*.log
+out/
+render/node_modules
