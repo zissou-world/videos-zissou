@@ -751,7 +751,7 @@ async function composite(c, t) {
     if (kw > 0) { c.save(); c.beginPath(); c.arc(960, 540, 1200 * kw, 0, Math.PI * 2); c.clip(); await drawBroll(c, 'raw_abertura', t, tB0, { speed: .85 }); c.restore(); } }
   // ---- closing ----
   if (inClose) {
-    await drawBroll(c, 'fechamento', t, tClose, { speed: .8, dur: 8 });
+    await drawBroll(c, 'fechamento', t, tClose, { speed: .75, dur: 8 });
     const k = ap(t, tClose + .6, .7); if (k.a > 0) { c.save(); c.globalAlpha = k.a; txt(c, 'PRÓXIMO EPISÓDIO', 140, 760, 22, C.coral, { ls: 8 }); txt(c, '02 · Vender', 136, 850, 80, '#FFFFFF'); txt(c, 'Criar um orçamento do zero e registrar a visita', 140, 905, 28, 'rgba(255,255,255,.85)', { w: 600 }); c.restore(); }
     const te = D_ - 3.0; if (t > te) { const ke = eo(pr(t, te, .8)); c.save(); c.globalAlpha = ke; const g = c.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#0E131C'); g.addColorStop(1, '#1D2A40'); c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore();
       renderer.render(scene, camera); c.save(); c.globalAlpha = ke; c.drawImage(glc, 0, 0); c.restore();
