@@ -33,7 +33,7 @@
 |---|---|---|---|
 | 0 | **Vinheta** | Tomada cinematográfica (Higgsfield) que termina no ícone 3D. Depois o selo "ZISSOU WORLD ACADEMY · Episódio 02 · Vender". | Trilha e efeitos. |
 | 1 | **Gancho** | Vendedor e cliente de costas, olhando o tablet. Depois o tablet real com o orçamento preenchido, com o selo "Pronto em menos de 2 minutos" e os destaques "Produtos", "Total", "No cartão", "No PIX" e "Link para pagar". | "Imagine o cliente do seu lado. Em menos de dois minutos, ele já tem tudo: os produtos, o total no cartão e no Pix, e o link de pagamento." |
-| 2 | **Abertura** | Tela do orçamento, com o texto "Seu orçamento em minutos". | "É aqui que a venda começa a acontecer. Vamos montar um orçamento juntos, do jeito que você faz na loja todos os dias." |
+| 2 | **Abertura** | Tela do orçamento, com o texto "Seu orçamento em minutos". | "Toda venda começa aqui. Vamos montar um orçamento juntos, passo a passo, do jeito que você faz na loja." |
 | 3 | **Cap. 01 · Botão +** | Zoom no botão + e em "Novo Orçamento". | "Toque no botão mais e escolha Novo Orçamento. Você também pode começar direto de uma conversa do WhatsApp, sem sair dela." |
 | 4 | **Escolher o cliente** | Leads recentes (toque em Marina), busca e "Cadastrar novo cliente". | "Primeiro, o cliente. Se ele já passou pela loja nos últimos noventa dias, aparece aqui em Leads recentes…" |
 | 5 | **Cap. 02 · Produtos** | O vendedor digita "Coral", toca no resultado e o produto entra no orçamento. Ritual completo: colchão, travesseiro, lençol e protetor. | "Agora, os produtos. Digite o nome ou o código do produto…" |

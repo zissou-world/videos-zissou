@@ -15,17 +15,17 @@ os produtos, o total no cartão e no Pix,
 e o link de pagamento.
 
 5
-00:00:22,752 --> 00:00:24,687
-É aqui que a venda começa a acontecer.
+00:00:22,752 --> 00:00:24,200
+Toda venda começa aqui.
 
 6
-00:00:24,737 --> 00:00:26,348
-Vamos montar um orçamento juntos,
+00:00:24,250 --> 00:00:26,882
+Vamos montar um orçamento
+juntos, passo a passo,
 
 7
-00:00:26,398 --> 00:00:29,596
-do jeito que você faz
-na loja todos os dias.
+00:00:26,932 --> 00:00:28,900
+do jeito que você faz na loja.
 
 8
 00:00:33,646 --> 00:00:36,394

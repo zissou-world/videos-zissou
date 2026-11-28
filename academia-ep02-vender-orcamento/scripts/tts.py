@@ -6,7 +6,7 @@ WARM = dict(stability=.62, similarity_boost=.72, style=.18, speed=1.0, use_speak
 HOT = dict(stability=.57, similarity_boost=.72, style=.25, speed=1.01, use_speaker_boost=True)
 LINES = {
   'l1': ('Imagine o cliente do seu lado. Em menos de dois minutos, ele já tem tudo: os produtos, o total no cartão e no Pix, e o link de pagamento.', HOT),
-  'l2': ('É aqui que a venda começa a acontecer. Vamos montar um orçamento juntos, do jeito que você faz na loja todos os dias.', WARM),
+  'l2': ('Toda venda começa aqui. Vamos montar um orçamento juntos, passo a passo, do jeito que você faz na loja.', dict(stability=.66, similarity_boost=.72, style=.15, speed=.92, use_speaker_boost=True)),
   'l3': ('Toque no botão mais e escolha Novo Orçamento. Você também pode começar direto de uma conversa do WhatsApp, sem sair dela.', WARM),
   'l4': ('Primeiro, o cliente. Se ele já passou pela loja nos últimos noventa dias, aparece aqui em leads recentes: é só tocar no nome. Se não, busque por nome, telefone ou e-mail, ou toque em Cadastrar novo cliente.', WARM),
   'l5': ('Agora, os produtos. Digite o nome ou o código do produto, e toque no item e no tamanho. Repita para cada um: colchão, travesseiro, lençol, protetor. Não esqueça o ritual completo: é ele que aumenta o tíquete.', WARM),
